@@ -57,7 +57,7 @@ TestResult.xml
 nunit-*.xml
 
 
-Identity.Api/keys/
+IdentityService/Identity.API/Keys/
 
 .idea/
 *.user

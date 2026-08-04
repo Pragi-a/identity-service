@@ -13,9 +13,14 @@ public static class MeEndpoint
     {
         app.MapGet("/me", async (ClaimsPrincipal user, [FromServices] ISender sender) =>
         {
-            var userId = user.FindFirstValue(JwtRegisteredClaimNames.Sub)!;
+            var sub = user.FindFirstValue(JwtRegisteredClaimNames.Sub);
+            
+            if (string.IsNullOrWhiteSpace(sub) || !Guid.TryParse(sub, out var userId))
+            {
+                return Results.Unauthorized();
+            }
 
-            var result = await sender.Send(new GetCurrentUserQuery(Guid.Parse(userId)));
+            var result = await sender.Send(new GetCurrentUserQuery(userId));
 
             if (result.IsFailure)
             {
@@ -31,7 +36,7 @@ public static class MeEndpoint
             }
 
             return Results.Ok(result.Value);
-        });
+        }).RequireAuthorization();
 
         return app;
     }
