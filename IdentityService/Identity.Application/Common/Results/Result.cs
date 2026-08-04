@@ -4,9 +4,9 @@ namespace Identity.Application.Common.Results;
 
 public class Result
 {
-    public bool IsSuccess { get;  }
+    public bool IsSuccess { get; }
 
-    public Error Error { get;  }
+    public Error Error { get;}
     
     public bool IsFailure => !IsSuccess;
 
