@@ -30,4 +30,9 @@ public sealed class UserRepository(IdentityDbContext context) : IUserRepository
             .AsNoTracking()
             .FirstOrDefaultAsync(x => x.Email == email, cancellationToken);
     }
+
+    public async Task<User?> GetByIdAsync(Guid userId, CancellationToken cancellationToken)
+    {
+        return await context.Users.FindAsync([userId], cancellationToken);
+    }
 }

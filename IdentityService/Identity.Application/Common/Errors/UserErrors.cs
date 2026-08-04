@@ -6,4 +6,6 @@ public static class UserErrors
     
     public static readonly Error InvalidCredentials = new Error("invalid_credentials", "Invalid credentials");
     
+    public static readonly Error UserNotFound = new Error("user_not_found", "User not found");
+    
 }

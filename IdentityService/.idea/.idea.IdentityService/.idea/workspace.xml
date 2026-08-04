@@ -10,21 +10,12 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="17dd31c7-5858-481e-b779-6a5c8bcad635" name="Changes" comment="">
-      <change beforePath="$PROJECT_DIR$/../.gitignore" beforeDir="false" afterPath="$PROJECT_DIR$/../.gitignore" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/.idea.IdentityService/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/.idea.IdentityService/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/Identity.API/Identity.API.csproj" beforeDir="false" afterPath="$PROJECT_DIR$/Identity.API/Identity.API.csproj" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/Identity.API/Program.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Identity.API/Program.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Identity.API/appsettings.json" beforeDir="false" afterPath="$PROJECT_DIR$/Identity.API/appsettings.json" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/Identity.Application/Common/Errors/UserErrors.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Identity.Application/Common/Errors/UserErrors.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Identity.Application/DependencyInjection/DependencyInjection.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Identity.Application/DependencyInjection/DependencyInjection.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Identity.Application/Features/Register/RegisterUserResponse.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Identity.Application/Features/Register/RegisterUserResponse.cs" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/Identity.Application/Interfaces/IUserRepository.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Identity.Application/Interfaces/IUserRepository.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Identity.Infrastructure/DependencyInjection/DependencyInjection.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Identity.Infrastructure/DependencyInjection/DependencyInjection.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Identity.Infrastructure/Identity.Infrastructure.csproj" beforeDir="false" afterPath="$PROJECT_DIR$/Identity.Infrastructure/Identity.Infrastructure.csproj" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/Identity.Infrastructure/Persistence/Repositories/UserRepository.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Identity.Infrastructure/Persistence/Repositories/UserRepository.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Identity.Infrastructure/Persistence/ValueConverters/EmailValueConverter.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Identity.Infrastructure/Persistence/ValueConverters/EmailValueConverter.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Identity.Infrastructure/Security/BCryptPasswordHasher.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Identity.Infrastructure/Security/Password/BCryptPasswordHasher.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/IdentityService.sln.DotSettings.user" beforeDir="false" afterPath="$PROJECT_DIR$/IdentityService.sln.DotSettings.user" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -41,6 +32,8 @@
     <setting file="file://$PROJECT_DIR$/Identity.API/DependencyInjection/EndpointRegistration.cs" root0="FORCE_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/Identity.API/Features/Login/LoginEndpoint.cs" root0="FORCE_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/Identity.API/Features/Login/LoginRequest.cs" root0="FORCE_HIGHLIGHTING" />
+    <setting file="file://$PROJECT_DIR$/Identity.API/Features/Me/MeEndpoint.cs" root0="FORCE_HIGHLIGHTING" />
+    <setting file="file://$PROJECT_DIR$/Identity.API/Features/Me/MeResponse.cs" root0="FORCE_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/Identity.API/Features/Register/RegisterEndpoint.cs" root0="FORCE_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/Identity.API/Features/Register/RegisterRequest.cs" root0="FORCE_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/Identity.Application/Common/Errors/Error.cs" root0="FORCE_HIGHLIGHTING" />
@@ -49,6 +42,9 @@
     <setting file="file://$PROJECT_DIR$/Identity.Application/Features/Login/LoginCommand.cs" root0="FORCE_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/Identity.Application/Features/Login/LoginHandler.cs" root0="FORCE_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/Identity.Application/Features/Login/LoginResponse.cs" root0="FORCE_HIGHLIGHTING" />
+    <setting file="file://$PROJECT_DIR$/Identity.Application/Features/Me/GetCurrentUserHandler.cs" root0="FORCE_HIGHLIGHTING" />
+    <setting file="file://$PROJECT_DIR$/Identity.Application/Features/Me/GetCurrentUserQuery.cs" root0="FORCE_HIGHLIGHTING" />
+    <setting file="file://$PROJECT_DIR$/Identity.Application/Features/Me/GetCurrentUserResponse.cs" root0="FORCE_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/Identity.Application/Features/Register/RegisterUserCommand.cs" root0="FORCE_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/Identity.Application/Features/Register/RegisterUserHandler.cs" root0="FORCE_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/Identity.Application/Features/Register/RegisterUserResponse.cs" root0="FORCE_HIGHLIGHTING" />
@@ -87,22 +83,22 @@
     <option name="hideEmptyMiddlePackages" value="true" />
     <option name="showLibraryContents" value="true" />
   </component>
-  <component name="PropertiesComponent"><![CDATA[{
-  "keyToString": {
-    ".NET Launch Settings Profile.Identity.API: http.executor": "Debug",
-    "ModuleVcsDetector.initialDetectionPerformed": "true",
-    "RunOnceActivity.ShowReadmeOnStart": "true",
-    "RunOnceActivity.git.unshallow": "true",
-    "RunOnceActivity.typescript.service.memoryLimit.init": "true",
-    "git-widget-placeholder": "dev",
-    "node.js.detected.package.eslint": "true",
-    "node.js.detected.package.tslint": "true",
-    "node.js.selected.package.eslint": "(autodetect)",
-    "node.js.selected.package.tslint": "(autodetect)",
-    "nodejs_package_manager_path": "npm",
-    "vue.rearranger.settings.migration": "true"
+  <component name="PropertiesComponent">{
+  &quot;keyToString&quot;: {
+    &quot;.NET Launch Settings Profile.Identity.API: http.executor&quot;: &quot;Run&quot;,
+    &quot;ModuleVcsDetector.initialDetectionPerformed&quot;: &quot;true&quot;,
+    &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
+    &quot;RunOnceActivity.git.unshallow&quot;: &quot;true&quot;,
+    &quot;RunOnceActivity.typescript.service.memoryLimit.init&quot;: &quot;true&quot;,
+    &quot;git-widget-placeholder&quot;: &quot;dev&quot;,
+    &quot;node.js.detected.package.eslint&quot;: &quot;true&quot;,
+    &quot;node.js.detected.package.tslint&quot;: &quot;true&quot;,
+    &quot;node.js.selected.package.eslint&quot;: &quot;(autodetect)&quot;,
+    &quot;node.js.selected.package.tslint&quot;: &quot;(autodetect)&quot;,
+    &quot;nodejs_package_manager_path&quot;: &quot;npm&quot;,
+    &quot;vue.rearranger.settings.migration&quot;: &quot;true&quot;
   }
-}]]></component>
+}</component>
   <component name="RunManager" selected=".NET Launch Settings Profile.Identity.API: http">
     <configuration name="Identity.API: IIS Express" type="LaunchSettings" factoryName=".NET Launch Settings Profile">
       <option name="LAUNCH_PROFILE_PROJECT_FILE_PATH" value="$PROJECT_DIR$/Identity.API/Identity.API.csproj" />
@@ -162,7 +158,8 @@
       <updated>1785663655251</updated>
       <workItem from="1785663657247" duration="17858000" />
       <workItem from="1785752068819" duration="12164000" />
-      <workItem from="1785811763553" duration="15770000" />
+      <workItem from="1785811763553" duration="16410000" />
+      <workItem from="1785843851998" duration="7144000" />
     </task>
     <servers />
   </component>
