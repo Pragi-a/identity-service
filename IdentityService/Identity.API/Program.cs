@@ -1,3 +1,4 @@
+using Identity.API.DependencyInjection;
 using Identity.Application.DependencyInjection;
 using Identity.Infrastructure.DependencyInjection;
 
@@ -21,5 +22,7 @@ if (app.Environment.IsDevelopment())
     app.UseSwaggerUI();
 }
 
-app.UseHttpsRedirection();
+// app.UseHttpsRedirection();
+
+app.MapEndpoints();
 app.Run();

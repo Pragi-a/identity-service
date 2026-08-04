@@ -11,5 +11,7 @@ public interface IUserRepository
     
     Task SaveChangesAsync(CancellationToken cancellationToken);
     
+    Task<User?> GetByEmailAsync(Email email, CancellationToken cancellationToken);
+    
     
 }

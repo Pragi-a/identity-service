@@ -23,4 +23,11 @@ public sealed class UserRepository(IdentityDbContext context) : IUserRepository
     {
         await context.SaveChangesAsync(cancellationToken);
     }
+
+    public async Task<User?> GetByEmailAsync(Email email, CancellationToken cancellationToken)
+    {
+        return await context.Users
+            .AsNoTracking()
+            .FirstOrDefaultAsync(x => x.Email == email, cancellationToken);
+    }
 }

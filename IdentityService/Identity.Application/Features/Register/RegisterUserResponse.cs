@@ -1,3 +1,3 @@
 namespace Identity.Application.Features.Register;
 
-public class RegisterUserResponse(Guid userId);
+public sealed record RegisterUserResponse(Guid UserId);
