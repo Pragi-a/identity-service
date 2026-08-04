@@ -11,11 +11,6 @@
   <component name="ChangeListManager">
     <list default="true" id="17dd31c7-5858-481e-b779-6a5c8bcad635" name="Changes" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/.idea.IdentityService/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/.idea.IdentityService/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Identity.API/Identity.API.csproj" beforeDir="false" afterPath="$PROJECT_DIR$/Identity.API/Identity.API.csproj" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Identity.API/Program.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Identity.API/Program.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Identity.Application/Common/Errors/UserErrors.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Identity.Application/Common/Errors/UserErrors.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Identity.Application/Interfaces/IUserRepository.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Identity.Application/Interfaces/IUserRepository.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Identity.Infrastructure/Persistence/Repositories/UserRepository.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Identity.Infrastructure/Persistence/Repositories/UserRepository.cs" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -159,7 +154,7 @@
       <workItem from="1785663657247" duration="17858000" />
       <workItem from="1785752068819" duration="12164000" />
       <workItem from="1785811763553" duration="16410000" />
-      <workItem from="1785843851998" duration="7144000" />
+      <workItem from="1785843851998" duration="7745000" />
     </task>
     <servers />
   </component>
