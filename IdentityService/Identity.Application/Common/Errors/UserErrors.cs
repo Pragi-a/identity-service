@@ -8,4 +8,6 @@ public static class UserErrors
     
     public static readonly Error UserNotFound = new Error("user_not_found", "User not found");
     
+    public static readonly Error InvalidRefreshToken = new Error("invalid_refresh_token", "Invalid refresh token");
+    
 }

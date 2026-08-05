@@ -33,7 +33,7 @@ public sealed class JwtTokenProvider : ITokenProvider
         _privateKey = new RsaSecurityKey(rsa);
     }
 
-    public string GenerateAccessToken(User user)
+    public string AccessTokenResult(User user)
     {
         var claims = new Claim[]
         {

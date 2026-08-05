@@ -31,7 +31,7 @@ public class LoginHandler(
             return Result<LoginResponse>.Failure(UserErrors.InvalidCredentials);
 
 
-        var accessToken = provider.GenerateAccessToken(user);
+        var accessToken = provider.AccessTokenResult(user);
 
         var refreshTokenString = refreshTokenGenerator.GenerateRefreshToken();
         var hashedRefreshToken = refreshTokenHasher.HashToken(refreshTokenString);
