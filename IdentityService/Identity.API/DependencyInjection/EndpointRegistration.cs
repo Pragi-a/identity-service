@@ -1,4 +1,5 @@
 using Identity.API.Features.Login;
+using Identity.API.Features.Me;
 using Identity.API.Features.Register;
 
 namespace Identity.API.DependencyInjection;
@@ -9,6 +10,7 @@ public static class EndpointRegistration
     {
         app.MapRegisterEndpoint();
         app.MapLoginEndpoint();
+        app.MapMeEndpoint();
         return app;
     }
 }

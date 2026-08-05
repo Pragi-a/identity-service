@@ -1,8 +1,9 @@
 using Identity.Application.Interfaces;
+using Identity.Application.Interfaces.Security;
 
 namespace Identity.Infrastructure.Security.Password;
 
-public class BCryptPasswordHasher: IPasswordHasher
+public sealed class BCryptPasswordHasher: IPasswordHasher
 {
     public string HashPassword(string password)
     {

@@ -1,5 +1,6 @@
 using Identity.Application.Interfaces;
-using Identity.Domain.Entities.Users;
+using Identity.Application.Interfaces.Repositories;
+using Identity.Domain.Entities;
 using Identity.Domain.ValueObjects;
 using Microsoft.EntityFrameworkCore;
 

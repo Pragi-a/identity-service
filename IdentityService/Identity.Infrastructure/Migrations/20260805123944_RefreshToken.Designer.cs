@@ -3,6 +3,7 @@ using System;
 using Identity.Infrastructure.Persistence;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 
@@ -11,9 +12,11 @@ using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 namespace Identity.Infrastructure.Migrations
 {
     [DbContext(typeof(IdentityDbContext))]
-    partial class IdentityDbContextModelSnapshot : ModelSnapshot
+    [Migration("20260805123944_RefreshToken")]
+    partial class RefreshToken
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -26,37 +29,27 @@ namespace Identity.Infrastructure.Migrations
                 {
                     b.Property<Guid>("Id")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("uuid")
-                        .HasColumnName("refresh_token_id");
+                        .HasColumnType("uuid");
 
                     b.Property<DateTime>("CreatedAt")
-                        .HasColumnType("timestamp with time zone")
-                        .HasColumnName("created_at");
+                        .HasColumnType("timestamp with time zone");
 
                     b.Property<DateTime>("ExpiresAt")
-                        .HasColumnType("timestamp with time zone")
-                        .HasColumnName("expires_at");
+                        .HasColumnType("timestamp with time zone");
 
                     b.Property<DateTime?>("RevokedAt")
-                        .HasColumnType("timestamp with time zone")
-                        .HasColumnName("revoked_at");
+                        .HasColumnType("timestamp with time zone");
 
                     b.Property<string>("TokenHash")
                         .IsRequired()
-                        .HasColumnType("text")
-                        .HasColumnName("token_hash");
+                        .HasColumnType("text");
 
                     b.Property<Guid>("UserId")
-                        .HasColumnType("uuid")
-                        .HasColumnName("user_id");
+                        .HasColumnType("uuid");
 
-                    b.HasKey("Id")
-                        .HasName("pk_refresh_tokens");
+                    b.HasKey("Id");
 
-                    b.HasIndex("TokenHash")
-                        .IsUnique();
-
-                    b.ToTable("refresh_tokens", "auth");
+                    b.ToTable("RefreshTokens");
                 });
 
             modelBuilder.Entity("Identity.Domain.Entities.User", b =>

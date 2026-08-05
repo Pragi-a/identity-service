@@ -1,8 +1,8 @@
 using Identity.Domain.ValueObjects;
 
-namespace Identity.Domain.Entities.Users;
+namespace Identity.Domain.Entities;
 
-public class User
+public sealed class User
 {
     public Guid Id { get; init; }
     public Email Email { get; init; }

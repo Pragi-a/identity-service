@@ -1,4 +1,4 @@
-using Identity.Domain.Entities.Users;
+using Identity.Domain.Entities;
 using Identity.Infrastructure.Persistence.ValueConverters;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
@@ -21,10 +21,6 @@ public sealed class UserConfiguration : IEntityTypeConfiguration<User>
             .HasConversion<EmailValueConverter>()
             .HasMaxLength(254)
             .IsRequired();
-    
-        builder.HasIndex(x => x.Email)
-            .HasDatabaseName("ux_users_email")
-            .IsUnique();
 
         builder.Property(x => x.PasswordHash)
             .HasColumnName("password_hash")
@@ -45,5 +41,9 @@ public sealed class UserConfiguration : IEntityTypeConfiguration<User>
 
         builder.Property(x => x.CreatedAt)
             .HasColumnName("created_at");
+        
+        builder.HasIndex(x => x.Email)
+            .HasDatabaseName("ux_users_email")
+            .IsUnique();
     }
 }

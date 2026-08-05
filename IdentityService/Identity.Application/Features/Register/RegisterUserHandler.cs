@@ -1,7 +1,9 @@
 using Identity.Application.Common.Errors;
 using Identity.Application.Common.Results;
 using Identity.Application.Interfaces;
-using Identity.Domain.Entities.Users;
+using Identity.Application.Interfaces.Repositories;
+using Identity.Application.Interfaces.Security;
+using Identity.Domain.Entities;
 using Identity.Domain.ValueObjects;
 using MediatR;
 

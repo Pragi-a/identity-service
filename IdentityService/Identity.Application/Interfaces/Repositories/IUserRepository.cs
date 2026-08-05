@@ -1,7 +1,7 @@
-using Identity.Domain.Entities.Users;
+using Identity.Domain.Entities;
 using Identity.Domain.ValueObjects;
 
-namespace Identity.Application.Interfaces;
+namespace Identity.Application.Interfaces.Repositories;
 
 public interface IUserRepository
 {

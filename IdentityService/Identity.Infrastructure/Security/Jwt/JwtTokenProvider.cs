@@ -2,9 +2,10 @@ using System.Security.Claims;
 using System.Security.Cryptography;
 using Microsoft.Extensions.Options;
 using Microsoft.IdentityModel.Tokens;
-using Identity.Domain.Entities.Users;
 using System.IdentityModel.Tokens.Jwt;
 using Identity.Application.Interfaces;
+using Identity.Application.Interfaces.Security;
+using Identity.Domain.Entities;
 
 namespace Identity.Infrastructure.Security.Jwt;
 

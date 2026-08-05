@@ -1,6 +1,6 @@
-using Identity.Domain.Entities.Users;
+using Identity.Domain.Entities;
 
-namespace Identity.Application.Interfaces;
+namespace Identity.Application.Interfaces.Security;
 
 public interface ITokenProvider
 {

@@ -24,6 +24,8 @@ public static class AuthenticationExtensions
 
                 var publicKey = new RsaSecurityKey(rsa);
 
+                options.MapInboundClaims = false;
+
                 options.TokenValidationParameters = new TokenValidationParameters
                 {
                     ValidateIssuerSigningKey = true,
