@@ -23,4 +23,13 @@ public sealed class RefreshTokenRepository(IdentityDbContext context) : IRefresh
     {
         await context.SaveChangesAsync(cancellationToken);
     }
+
+    public async Task RevokeAllByUserIdAsync(Guid userId, DateTime revokedAt,CancellationToken cancellationToken)
+    {
+        await context.RefreshTokens
+            .Where(x => x.UserId == userId)
+            .ExecuteUpdateAsync(
+                x => x.SetProperty(t => t.RevokedAt, revokedAt),
+                cancellationToken);
+    }
 }
