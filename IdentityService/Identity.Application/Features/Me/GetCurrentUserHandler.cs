@@ -2,6 +2,7 @@ using Identity.Application.Common.Errors;
 using Identity.Application.Common.Results;
 using Identity.Application.Interfaces;
 using Identity.Application.Interfaces.Repositories;
+using Identity.Application.Interfaces.Repositories.Commands;
 using MediatR;
 
 namespace Identity.Application.Features.Me;

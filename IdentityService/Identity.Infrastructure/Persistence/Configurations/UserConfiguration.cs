@@ -42,6 +42,16 @@ public sealed class UserConfiguration : IEntityTypeConfiguration<User>
         builder.Property(x => x.CreatedAt)
             .HasColumnName("created_at");
         
+        
+        builder.HasMany(x => x.Roles)
+            .WithOne()
+            .HasForeignKey("UserId")
+            .OnDelete(DeleteBehavior.Cascade);
+        
+        builder.Navigation(x => x.Roles)
+            .HasField("_roles")
+            .UsePropertyAccessMode(PropertyAccessMode.Field);
+        
         builder.HasIndex(x => x.Email)
             .HasDatabaseName("ux_users_email")
             .IsUnique();

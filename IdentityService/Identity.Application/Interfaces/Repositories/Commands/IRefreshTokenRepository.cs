@@ -1,6 +1,6 @@
 using Identity.Domain.Entities;
 
-namespace Identity.Application.Interfaces.Repositories;
+namespace Identity.Application.Interfaces.Repositories.Commands;
 
 public interface IRefreshTokenRepository
 {

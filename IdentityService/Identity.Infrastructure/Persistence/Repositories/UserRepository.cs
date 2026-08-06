@@ -1,5 +1,6 @@
 using Identity.Application.Interfaces;
 using Identity.Application.Interfaces.Repositories;
+using Identity.Application.Interfaces.Repositories.Commands;
 using Identity.Domain.Entities;
 using Identity.Domain.ValueObjects;
 using Microsoft.EntityFrameworkCore;
@@ -28,12 +29,14 @@ public sealed class UserRepository(IdentityDbContext context) : IUserRepository
     public async Task<User?> GetByEmailAsync(Email email, CancellationToken cancellationToken)
     {
         return await context.Users
-            .AsNoTracking()
+            .Include(x => x.Roles)
             .FirstOrDefaultAsync(x => x.Email == email, cancellationToken);
     }
 
     public async Task<User?> GetByIdAsync(Guid userId, CancellationToken cancellationToken)
     {
-        return await context.Users.FindAsync([userId], cancellationToken);
+        return await context.Users
+            .Include(x => x.Roles)
+            .FirstOrDefaultAsync(x => x.Id == userId, cancellationToken);
     }
 }

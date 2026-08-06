@@ -19,7 +19,9 @@ public sealed class RefreshTokenConfiguration : IEntityTypeConfiguration<Refresh
         builder.Property(x => x.ExpiresAt).HasColumnName("expires_at").IsRequired();
         builder.Property(x => x.RevokedAt).HasColumnName("revoked_at");
         
-        builder.HasIndex(x => x.TokenHash).IsUnique();
+        builder.HasIndex(x => x.TokenHash)
+            .HasDatabaseName("ux_refresh_tokens")
+            .IsUnique();
 
         builder.Ignore(x => x.IsRevoked);
     }

@@ -1,6 +1,7 @@
 using Microsoft.EntityFrameworkCore;
 using Identity.Application.Interfaces;
 using Identity.Application.Interfaces.Repositories;
+using Identity.Application.Interfaces.Repositories.Commands;
 using Identity.Application.Interfaces.Security;
 using Identity.Infrastructure.Persistence;
 using Identity.Infrastructure.Persistence.Repositories;
@@ -27,6 +28,7 @@ public static class DependencyInjection
         });
         services.AddScoped<IUserRepository, UserRepository>();
         services.AddScoped<IRefreshTokenRepository, RefreshTokenRepository>();
+        services.AddScoped<IPermissionRepository, PermissionRepository>();
 
         //security
         services.Configure<JwtOptions>(configuration.GetSection(JwtOptions.SectionName));
