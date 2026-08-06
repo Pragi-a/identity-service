@@ -24,6 +24,11 @@ public sealed class UserRoleConfiguration : IEntityTypeConfiguration<UserRole>
         builder.Property<Guid>("UserId")
             .HasColumnName("user_id")
             .IsRequired();
+
+        builder.HasOne<Role>()
+            .WithMany()
+            .HasForeignKey(x => x.RoleId)
+            .OnDelete(DeleteBehavior.Restrict);
         
         builder.HasIndex("UserId",nameof(UserRole.RoleId))
             .HasDatabaseName("ux_user_roles_user_id_role_id")

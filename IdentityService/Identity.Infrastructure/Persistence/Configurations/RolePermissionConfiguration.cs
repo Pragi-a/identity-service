@@ -25,6 +25,11 @@ public sealed class RolePermissionConfiguration : IEntityTypeConfiguration<RoleP
             .HasColumnName("role_id")
             .IsRequired();
         
+        builder.HasOne<Permission>()
+            .WithMany()
+            .HasForeignKey(x => x.PermissionId)
+            .OnDelete(DeleteBehavior.Restrict);
+        
         builder.HasIndex("RoleId",nameof(RolePermission.PermissionId))
             .IsUnique()
             .HasDatabaseName("ux_role_permissions_roleid_permissionid");;
