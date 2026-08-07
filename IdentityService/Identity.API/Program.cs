@@ -16,6 +16,8 @@ builder.Services
     .AddInfrastructure(builder.Configuration)
     .AddJwtAuthentication(builder.Configuration);
 
+builder.Services.AddAuthorization();
+
 var app = builder.Build();
 await app.InitializeDatabaseAsync();
 

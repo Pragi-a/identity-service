@@ -70,6 +70,7 @@ public sealed class DatabaseSeeder(IdentityDbContext context, IPasswordHasher pa
 
     private async Task SeedRolePermissionAsync()
     {
+        // Seed Role - Permission for Admin
         var adminRole = await context.Roles
             .Include(x => x.Permissions)
             .FirstAsync(x => x.Name == RoleDefinitions.Admin.Name);
@@ -78,12 +79,8 @@ public sealed class DatabaseSeeder(IdentityDbContext context, IPasswordHasher pa
 
         adminRole.ReplacePermissions(permissionIds);
 
-
-        foreach (var entry in context.ChangeTracker.Entries())
-        {
-            Console.WriteLine(
-                $"{entry.Entity.GetType().Name} - {entry.State}");
-        }
+        context.Roles.Include(x => x.Permissions);
+            
 
         await context.SaveChangesAsync();
     }

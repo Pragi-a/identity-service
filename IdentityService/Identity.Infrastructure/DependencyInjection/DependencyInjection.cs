@@ -2,6 +2,7 @@ using Microsoft.EntityFrameworkCore;
 using Identity.Application.Interfaces.Repositories.Commands;
 using Identity.Application.Interfaces.Repositories.Queries;
 using Identity.Application.Interfaces.Security;
+using Identity.Infrastructure.Authorization;
 using Identity.Infrastructure.Persistence;
 using Identity.Infrastructure.Persistence.Queries;
 using Identity.Infrastructure.Persistence.Repositories;
@@ -9,6 +10,7 @@ using Identity.Infrastructure.Persistence.Seed;
 using Identity.Infrastructure.Security.Jwt;
 using Identity.Infrastructure.Security.Password;
 using Identity.Infrastructure.Security.RefreshTokens;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
@@ -20,6 +22,10 @@ public static class DependencyInjection
     public static IServiceCollection AddInfrastructure(this IServiceCollection services,
         IConfiguration configuration)
     {
+        //Authorization
+        services.AddSingleton<IAuthorizationHandler, PermissionAuthorizationHandler>();
+        services.AddSingleton<IAuthorizationPolicyProvider, PermissionPolicyProvider>();
+
         //Persistence
         services.AddDbContext<IdentityDbContext>(options =>
         {
@@ -27,7 +33,7 @@ public static class DependencyInjection
                                    throw new InvalidOperationException("Connection string 'IdentityDb' was not found.");
             options.UseNpgsql(connectionString)
                 .EnableSensitiveDataLogging()
-                .LogTo(Console.WriteLine,LogLevel.Information);
+                .LogTo(Console.WriteLine, LogLevel.Information);
         });
         services.AddScoped<IUserRepository, UserRepository>();
         services.AddScoped<IRefreshTokenRepository, RefreshTokenRepository>();
@@ -42,7 +48,7 @@ public static class DependencyInjection
         services.AddScoped<ITokenProvider, JwtTokenProvider>();
         services.AddScoped<IRefreshTokenGenerator, RefreshTokenGenerator>();
         services.AddScoped<IRefreshTokenHasher, Sha256RefreshTokenHasher>();
-        
+
         return services;
     }
 }
