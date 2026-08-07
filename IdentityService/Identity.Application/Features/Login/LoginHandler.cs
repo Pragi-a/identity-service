@@ -2,6 +2,7 @@ using Identity.Application.Common.Errors;
 using Identity.Application.Common.Results;
 using Identity.Application.Interfaces.Repositories;
 using Identity.Application.Interfaces.Repositories.Commands;
+using Identity.Application.Interfaces.Repositories.Queries;
 using Identity.Application.Interfaces.Security;
 using Identity.Domain.Entities;
 using Identity.Domain.ValueObjects;
@@ -15,7 +16,8 @@ public class LoginHandler(
     ITokenProvider provider,
     IRefreshTokenRepository refreshTokenRepository,
     IRefreshTokenHasher refreshTokenHasher,
-    IRefreshTokenGenerator refreshTokenGenerator)
+    IRefreshTokenGenerator refreshTokenGenerator,
+    IUserAuthorizationQueries userAuthorizationQueries)
     : IRequestHandler<LoginCommand, Result<LoginResponse>>
 {
     public async Task<Result<LoginResponse>> Handle(LoginCommand request, CancellationToken cancellationToken)
@@ -31,8 +33,8 @@ public class LoginHandler(
         if (!isValidPassword)
             return Result<LoginResponse>.Failure(UserErrors.InvalidCredentials);
 
-
-        var accessToken = provider.AccessTokenResult(user);
+        var permissionCodes = await userAuthorizationQueries.GetPermissionCodesAsync(user.Id, cancellationToken);
+        var accessToken = provider.GenerateAccessToken(user, permissionCodes);
 
         var refreshTokenString = refreshTokenGenerator.GenerateRefreshToken();
         var hashedRefreshToken = refreshTokenHasher.HashToken(refreshTokenString);

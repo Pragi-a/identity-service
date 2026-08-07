@@ -4,6 +4,6 @@ namespace Identity.Application.Interfaces.Security;
 
 public interface ITokenProvider
 {
-    string AccessTokenResult(User user);
+    string GenerateAccessToken(User user, IReadOnlyCollection<string> permissionCodes);
     
 }

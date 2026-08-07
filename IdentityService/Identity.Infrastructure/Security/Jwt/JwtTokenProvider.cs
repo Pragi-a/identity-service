@@ -3,7 +3,7 @@ using System.Security.Cryptography;
 using Microsoft.Extensions.Options;
 using Microsoft.IdentityModel.Tokens;
 using System.IdentityModel.Tokens.Jwt;
-using Identity.Application.Interfaces;
+using Identity.Application.Authorization;
 using Identity.Application.Interfaces.Security;
 using Identity.Domain.Entities;
 
@@ -33,28 +33,33 @@ public sealed class JwtTokenProvider : ITokenProvider
         _privateKey = new RsaSecurityKey(rsa);
     }
 
-    public string AccessTokenResult(User user)
+    public string GenerateAccessToken(User user, IReadOnlyCollection<string> permissionCodes)
     {
-        var claims = new Claim[]
+        var claims = new List<Claim>
         {
             new Claim(JwtRegisteredClaimNames.Sub, user.Id.ToString()),
             new Claim(JwtRegisteredClaimNames.Email, user.Email.Value),
             new Claim(JwtRegisteredClaimNames.Jti, Guid.NewGuid().ToString()),
         };
 
+        foreach (var permission in permissionCodes)
+        {
+            claims.Add(new Claim(CustomClaimTypes.Permission, permission));
+        }
+
         var signingCredentials = new SigningCredentials(this._privateKey, SecurityAlgorithms.RsaSha256);
         var expiresAt = DateTime.UtcNow.AddMinutes(this._jwtOptions.ExpiryMinutes);
 
         var token = new JwtSecurityToken(
-                issuer: _jwtOptions.Issuer,
-                audience: _jwtOptions.Audience,
-                claims: claims,
-                expires: expiresAt,
-                signingCredentials: signingCredentials
-            );
+            issuer: _jwtOptions.Issuer,
+            audience: _jwtOptions.Audience,
+            claims: claims,
+            expires: expiresAt,
+            signingCredentials: signingCredentials
+        );
 
         var handler = new JwtSecurityTokenHandler();
-        
+
         return handler.WriteToken(token);
     }
-}   
+}

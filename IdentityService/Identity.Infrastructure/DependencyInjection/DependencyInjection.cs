@@ -1,12 +1,11 @@
 using Microsoft.EntityFrameworkCore;
-using Identity.Application.Interfaces;
-using Identity.Application.Interfaces.Repositories;
 using Identity.Application.Interfaces.Repositories.Commands;
+using Identity.Application.Interfaces.Repositories.Queries;
 using Identity.Application.Interfaces.Security;
 using Identity.Infrastructure.Persistence;
+using Identity.Infrastructure.Persistence.Queries;
 using Identity.Infrastructure.Persistence.Repositories;
 using Identity.Infrastructure.Persistence.Seed;
-using Identity.Infrastructure.Security;
 using Identity.Infrastructure.Security.Jwt;
 using Identity.Infrastructure.Security.Password;
 using Identity.Infrastructure.Security.RefreshTokens;
@@ -35,6 +34,7 @@ public static class DependencyInjection
         services.AddScoped<IPermissionRepository, PermissionRepository>();
         services.AddScoped<IRoleRepository, RoleRepository>();
         services.AddScoped<DatabaseSeeder>();
+        services.AddScoped<IUserAuthorizationQueries, UserAuthorizationQueries>();
 
         //security
         services.Configure<JwtOptions>(configuration.GetSection(JwtOptions.SectionName));

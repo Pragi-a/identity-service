@@ -3,6 +3,7 @@ using Identity.Application.Common.Results;
 using Identity.Application.Features.Login;
 using Identity.Application.Interfaces.Repositories;
 using Identity.Application.Interfaces.Repositories.Commands;
+using Identity.Application.Interfaces.Repositories.Queries;
 using Identity.Application.Interfaces.Security;
 using Identity.Domain.Entities;
 using MediatR;
@@ -14,7 +15,8 @@ public class RefreshTokenHandler(
     IRefreshTokenRepository refreshTokenRepository,
     IRefreshTokenHasher refreshTokenHasher,
     ITokenProvider tokenProvider,
-    IRefreshTokenGenerator refreshTokenGenerator)
+    IRefreshTokenGenerator refreshTokenGenerator,
+    IUserAuthorizationQueries userAuthorizationQueries)
     : IRequestHandler<RefreshTokenCommand, Result<LoginResponse>>
 {
     public async Task<Result<LoginResponse>> Handle(RefreshTokenCommand request, CancellationToken cancellationToken)
@@ -35,13 +37,14 @@ public class RefreshTokenHandler(
         if (user is null || !user.IsActive)
             return Result<LoginResponse>.Failure(UserErrors.InvalidRefreshToken);
 
-        var accessToken = tokenProvider.AccessTokenResult(user);
+        var permissionCodes = await userAuthorizationQueries.GetPermissionCodesAsync(user.Id, cancellationToken);
+        var accessToken = tokenProvider.GenerateAccessToken(user, permissionCodes);
 
         var newRefreshTokenStr = refreshTokenGenerator.GenerateRefreshToken();
         var hashedRefreshToken = refreshTokenHasher.HashToken(newRefreshTokenStr);
 
         refreshToken.Revoke(DateTime.UtcNow);
-        
+
         var newRefreshToken = RefreshToken.Create(
             hashedRefreshToken,
             user.Id,
@@ -50,7 +53,7 @@ public class RefreshTokenHandler(
         );
 
         await refreshTokenRepository.AddRefreshToken(newRefreshToken, cancellationToken);
-        await  refreshTokenRepository.SaveChangesAsync(cancellationToken);
+        await refreshTokenRepository.SaveChangesAsync(cancellationToken);
 
         return Result<LoginResponse>.Success(new LoginResponse(accessToken, newRefreshTokenStr, string.Empty));
     }
