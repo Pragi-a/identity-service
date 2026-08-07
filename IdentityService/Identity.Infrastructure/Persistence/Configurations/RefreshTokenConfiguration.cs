@@ -10,14 +10,32 @@ public sealed class RefreshTokenConfiguration : IEntityTypeConfiguration<Refresh
     {
         builder.ToTable("refresh_tokens", "auth");
 
-        builder.HasKey(x => x.Id).HasName("pk_refresh_tokens");
+        builder.HasKey(x => x.Id)
+            .HasName("pk_refresh_tokens");
 
-        builder.Property(x => x.Id).HasColumnName("refresh_token_id").IsRequired();
-        builder.Property(x => x.UserId).HasColumnName("user_id").IsRequired();
-        builder.Property(x => x.TokenHash).HasColumnName("token_hash").IsRequired();
-        builder.Property(x => x.CreatedAt).HasColumnName("created_at").IsRequired();
-        builder.Property(x => x.ExpiresAt).HasColumnName("expires_at").IsRequired();
-        builder.Property(x => x.RevokedAt).HasColumnName("revoked_at");
+        builder.Property(x => x.Id)
+            .HasColumnName("refresh_token_id")
+            .ValueGeneratedNever()
+            .IsRequired();
+        
+        builder.Property(x => x.UserId)
+            .HasColumnName("user_id")
+            .IsRequired();
+        
+        builder.Property(x => x.TokenHash)
+            .HasColumnName("token_hash")
+            .IsRequired();
+        
+        builder.Property(x => x.CreatedAt)
+            .HasColumnName("created_at")
+            .IsRequired();
+        
+        builder.Property(x => x.ExpiresAt)
+            .HasColumnName("expires_at")
+            .IsRequired();
+        
+        builder.Property(x => x.RevokedAt)
+            .HasColumnName("revoked_at");
         
         builder.HasIndex(x => x.TokenHash)
             .HasDatabaseName("ux_refresh_tokens")

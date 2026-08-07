@@ -15,6 +15,7 @@ public sealed class UserRoleConfiguration : IEntityTypeConfiguration<UserRole>
 
         builder.Property(x => x.Id)
             .HasColumnName("user_role_id")
+            .ValueGeneratedNever()
             .IsRequired();
         
         builder.Property(x => x.RoleId)

@@ -80,7 +80,9 @@ public sealed class Role
     {
         ArgumentNullException.ThrowIfNull(permissionIds);
         _permissions.Clear();
-        foreach (var permissionId in permissionIds)
+        
+        var distinctPermissionIds = permissionIds.Distinct();
+        foreach (var permissionId in distinctPermissionIds)
         {
             AddPermission(permissionId);
         }

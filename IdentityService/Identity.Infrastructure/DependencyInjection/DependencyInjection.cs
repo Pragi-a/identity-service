@@ -5,12 +5,14 @@ using Identity.Application.Interfaces.Repositories.Commands;
 using Identity.Application.Interfaces.Security;
 using Identity.Infrastructure.Persistence;
 using Identity.Infrastructure.Persistence.Repositories;
+using Identity.Infrastructure.Persistence.Seed;
 using Identity.Infrastructure.Security;
 using Identity.Infrastructure.Security.Jwt;
 using Identity.Infrastructure.Security.Password;
 using Identity.Infrastructure.Security.RefreshTokens;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Extensions.Logging;
 
 namespace Identity.Infrastructure.DependencyInjection;
 
@@ -24,11 +26,15 @@ public static class DependencyInjection
         {
             var connectionString = configuration.GetConnectionString("IdentityDb") ??
                                    throw new InvalidOperationException("Connection string 'IdentityDb' was not found.");
-            options.UseNpgsql(connectionString);
+            options.UseNpgsql(connectionString)
+                .EnableSensitiveDataLogging()
+                .LogTo(Console.WriteLine,LogLevel.Information);
         });
         services.AddScoped<IUserRepository, UserRepository>();
         services.AddScoped<IRefreshTokenRepository, RefreshTokenRepository>();
         services.AddScoped<IPermissionRepository, PermissionRepository>();
+        services.AddScoped<IRoleRepository, RoleRepository>();
+        services.AddScoped<DatabaseSeeder>();
 
         //security
         services.Configure<JwtOptions>(configuration.GetSection(JwtOptions.SectionName));

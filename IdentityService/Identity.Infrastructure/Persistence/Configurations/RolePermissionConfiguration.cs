@@ -15,6 +15,7 @@ public sealed class RolePermissionConfiguration : IEntityTypeConfiguration<RoleP
 
         builder.Property(x => x.Id)
             .HasColumnName("role_permission_id")
+            .ValueGeneratedNever()
             .IsRequired();
         
         builder.Property(x => x.PermissionId)

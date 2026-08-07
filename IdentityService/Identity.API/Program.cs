@@ -1,4 +1,5 @@
 using Identity.API.DependencyInjection;
+using Identity.API.Extensions;
 using Identity.Application.DependencyInjection;
 using Identity.Infrastructure.DependencyInjection;
 
@@ -16,6 +17,7 @@ builder.Services
     .AddJwtAuthentication(builder.Configuration);
 
 var app = builder.Build();
+await app.InitializeDatabaseAsync();
 
 // Configure the HTTP request pipeline.
 if (app.Environment.IsDevelopment())
