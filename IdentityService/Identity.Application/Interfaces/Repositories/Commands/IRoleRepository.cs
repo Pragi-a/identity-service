@@ -8,6 +8,8 @@ public interface IRoleRepository
     
     Task<Role?> GetByIdAsync(Guid roleId, CancellationToken cancellationToken);
     
+    Task<IReadOnlyCollection<Role>> GetByIdsAsync(IReadOnlyCollection<Guid> roleIds, CancellationToken cancellationToken);
+    
     Task AddAsync(Role role, CancellationToken cancellationToken);
     
     Task SaveChangesAsync(CancellationToken cancellationToken);

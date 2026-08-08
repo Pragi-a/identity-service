@@ -57,4 +57,17 @@ public sealed class User
     {
         return _roles.Any(x => x.RoleId == roleId);
     }
+
+    public void ReplaceRoles(IEnumerable<Guid> roleIds)
+    {
+        ArgumentNullException.ThrowIfNull(roleIds);
+        _roles.Clear();
+
+        var roles = roleIds.Distinct();
+
+        foreach (var role in roles)
+        {
+            AddRole(role);
+        }
+    }
 }

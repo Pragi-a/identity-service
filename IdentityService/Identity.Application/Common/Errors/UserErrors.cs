@@ -10,4 +10,6 @@ public static class UserErrors
     
     public static readonly Error InvalidRefreshToken = new Error("invalid_refresh_token", "Invalid refresh token");
     
+    public static readonly Error InvalidRole = new Error("invalid_role", "Selected Role is invalid");
+    
 }
