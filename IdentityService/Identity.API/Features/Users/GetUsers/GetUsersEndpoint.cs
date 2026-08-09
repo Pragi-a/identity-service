@@ -29,6 +29,8 @@ public static class GetUsersEndpoint
             )
             .WithName("GetUsers")
             .WithTags("Users")
+            .WithSummary("Fetch All Users")
+            .WithDescription("This endpoint is used to fetch all the users in the system.")
             .Produces<GetUsersResponse>(StatusCodes.Status200OK)
             .Produces(StatusCodes.Status400BadRequest)
             .Produces(StatusCodes.Status401Unauthorized)

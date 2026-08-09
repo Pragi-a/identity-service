@@ -1,3 +1,4 @@
+using Identity.Application.Features.Users.GetUserById.Projections;
 using Identity.Application.Features.Users.GetUsers.Projections;
 using Identity.Application.Interfaces.Repositories.Queries;
 using Microsoft.EntityFrameworkCore;
@@ -21,5 +22,15 @@ public sealed class UserQueries(IdentityDbContext context) : IUserQueries
             .ToListAsync(cancellationToken);
 
         return new UserListResult(userList, count);
+    }
+
+    public async Task<UserItem?> GetUserById(Guid userId, CancellationToken cancellationToken)
+    {
+        return await context.Users
+            .AsNoTracking()
+            .Select(x => new { x.Id, Item = new UserItem(x.Email.Value, x.FirstName, x.LastName) })
+            .Where(x => x.Id == userId)
+            .Select(x => x.Item)
+            .SingleOrDefaultAsync(cancellationToken);
     }
 }
