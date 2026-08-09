@@ -1,0 +1,5 @@
+name: Identity Service
+variables:
+  - name: BaseUrl
+    value: http://localhost:5251
+    description: ""

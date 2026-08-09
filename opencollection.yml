@@ -1,0 +1,17 @@
+opencollection: 1.0.0
+
+info:
+  name: Identity-Service
+
+request:
+  variables:
+    - name: json_web_token_02t8
+      value: ""
+    - name: supabase_service_role_api_key_06f6
+      value: ""
+bundled: false
+extensions:
+  bruno:
+    ignore:
+      - node_modules
+      - .git
