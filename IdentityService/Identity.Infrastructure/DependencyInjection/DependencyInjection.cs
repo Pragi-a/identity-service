@@ -42,6 +42,9 @@ public static class DependencyInjection
         services.AddScoped<DatabaseSeeder>();
         services.AddScoped<IUserAuthorizationQueries, UserAuthorizationQueries>();
 
+        //Persistence - Queries
+        services.AddScoped<IUserQueries, UserQueries>();
+
         //security
         services.Configure<JwtOptions>(configuration.GetSection(JwtOptions.SectionName));
         services.AddScoped<IPasswordHasher, BCryptPasswordHasher>();

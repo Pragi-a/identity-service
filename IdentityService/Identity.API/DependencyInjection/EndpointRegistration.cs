@@ -3,6 +3,7 @@ using Identity.API.Features.Me;
 using Identity.API.Features.Refresh;
 using Identity.API.Features.Register;
 using Identity.API.Features.Users.CreateUser;
+using Identity.API.Features.Users.GetUsers;
 
 namespace Identity.API.DependencyInjection;
 
@@ -15,6 +16,7 @@ public static class EndpointRegistration
         app.MapMeEndpoint();
         app.MapRefreshEndpoint();
         app.MapCreateUserEndpoint();
+        app.MapGetUsersEndpoint();
         return app;
     }
 }
