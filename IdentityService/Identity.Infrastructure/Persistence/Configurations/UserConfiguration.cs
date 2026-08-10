@@ -26,14 +26,16 @@ public sealed class UserConfiguration : IEntityTypeConfiguration<User>
         builder.Property(x => x.PasswordHash)
             .HasColumnName("password_hash")
             .IsRequired();
-        
+
         builder.Property(x => x.FirstName)
             .HasColumnName("first_name")
+            .HasConversion<NameValueConverter>()
             .HasMaxLength(100)
             .IsRequired();
 
         builder.Property(x => x.LastName)
             .HasColumnName("last_name")
+            .HasConversion<NameValueConverter>()
             .HasMaxLength(100)
             .IsRequired();
 
@@ -42,17 +44,19 @@ public sealed class UserConfiguration : IEntityTypeConfiguration<User>
 
         builder.Property(x => x.CreatedAt)
             .HasColumnName("created_at");
-        
-        
+
+        builder.Property(x => x.Version)
+            .IsConcurrencyToken();
+
         builder.HasMany(x => x.Roles)
             .WithOne()
             .HasForeignKey("UserId")
             .OnDelete(DeleteBehavior.Cascade);
-        
+
         builder.Navigation(x => x.Roles)
             .HasField("_roles")
             .UsePropertyAccessMode(PropertyAccessMode.Field);
-        
+
         builder.HasIndex(x => x.Email)
             .HasDatabaseName("ux_users_email")
             .IsUnique();

@@ -16,7 +16,7 @@ public sealed class UserQueries(IdentityDbContext context) : IUserQueries
 
         var userList = await context.Users
             .AsNoTracking()
-            .Select(x => new UserListItem(x.Id, x.Email.Value, x.FirstName, x.LastName))
+            .Select(x => new UserListItem(x.Id, x.Email.Value, x.FirstName.Value, x.LastName.Value))
             .Skip((currentPage - 1) * pageSize)
             .Take(pageSize)
             .ToListAsync(cancellationToken);
@@ -28,7 +28,7 @@ public sealed class UserQueries(IdentityDbContext context) : IUserQueries
     {
         return await context.Users
             .AsNoTracking()
-            .Select(x => new { x.Id, Item = new UserItem(x.Email.Value, x.FirstName, x.LastName) })
+            .Select(x => new { x.Id, Item = new UserItem(x.Email.Value, x.FirstName.Value, x.LastName.Value) })
             .Where(x => x.Id == userId)
             .Select(x => x.Item)
             .SingleOrDefaultAsync(cancellationToken);

@@ -1,3 +1,4 @@
+using Identity.Application.Common.Results;
 using Identity.Domain.Entities;
 
 namespace Identity.Application.Interfaces.Repositories.Commands;
@@ -12,5 +13,5 @@ public interface IRoleRepository
     
     Task AddAsync(Role role, CancellationToken cancellationToken);
     
-    Task SaveChangesAsync(CancellationToken cancellationToken);
+    Task<Result> SaveChangesAsync(CancellationToken cancellationToken);
 }

@@ -18,4 +18,17 @@ public class IdentityDbContext(DbContextOptions<IdentityDbContext> options) : Db
 
         modelBuilder.ApplyConfigurationsFromAssembly(typeof(IdentityDbContext).Assembly);
     }
+
+    public override async Task<int> SaveChangesAsync(CancellationToken cancellationToken = new CancellationToken())
+    {
+        foreach (var entry in ChangeTracker.Entries<User>())
+        {
+            if (entry.State == EntityState.Modified)
+            {
+                entry.Entity.UpdateVersion();
+            }
+        }
+
+        return await base.SaveChangesAsync(cancellationToken);
+    }
 }

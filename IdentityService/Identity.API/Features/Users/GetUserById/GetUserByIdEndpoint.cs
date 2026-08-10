@@ -12,7 +12,8 @@ public static class GetUserByIdEndpoint
     public static IEndpointRouteBuilder MapGetUserByIdEndpoint(this IEndpointRouteBuilder app)
     {
         app.MapGet("/api/users/{id}",
-                async ([FromRoute] GetUserByIdRequest request, ISender sender, CancellationToken cancellationToken) =>
+                async ([AsParameters] GetUserByIdRequest request, ISender sender,
+                    CancellationToken cancellationToken) =>
                 {
                     var query = new GetUserByIdQuery(request.UserId);
 

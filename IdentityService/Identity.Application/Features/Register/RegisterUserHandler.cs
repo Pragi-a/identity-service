@@ -17,7 +17,7 @@ public class RegisterUserHandler(IUserRepository userRepository, IPasswordHasher
         CancellationToken cancellationToken)
     {
         var email = new Email(request.Email);
-        
+
         //check if the email exists
         var emailExists = await userRepository.ExistsByEmailAsync(email, cancellationToken);
         if (emailExists)
@@ -26,8 +26,10 @@ public class RegisterUserHandler(IUserRepository userRepository, IPasswordHasher
         //hash the password
         var hashedPassword = passwordHasher.HashPassword(request.Password);
 
+        var firstName = new Name(request.FirstName);
+        var lastName = new Name(request.LastName);
         // create the user
-        var user = new User(email, hashedPassword, request.FirstName, request.LastName);
+        var user = new User(email, hashedPassword, firstName, lastName);
 
         //save the user
         await userRepository.AddAsync(user, cancellationToken);

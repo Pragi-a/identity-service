@@ -1,3 +1,5 @@
+using Identity.Application.Common.Errors;
+using Identity.Application.Common.Results;
 using Identity.Application.Interfaces.Repositories.Commands;
 using Identity.Domain.Entities;
 using Microsoft.EntityFrameworkCore;
@@ -28,14 +30,22 @@ public sealed class RoleRepository(IdentityDbContext context) : IRoleRepository
             .ToListAsync(cancellationToken);
     }
 
-    
+
     public async Task AddAsync(Role role, CancellationToken cancellationToken)
     {
         await context.Roles.AddAsync(role, cancellationToken);
     }
 
-    public async Task SaveChangesAsync(CancellationToken cancellationToken)
+    public async Task<Result> SaveChangesAsync(CancellationToken cancellationToken)
     {
-        await context.SaveChangesAsync(cancellationToken);
+        try
+        {
+            await context.SaveChangesAsync(cancellationToken);
+            return Result.Success();
+        }
+        catch (DbUpdateConcurrencyException e)
+        {
+            return Result.Failure(CommonErrors.ConcurrencyConflict);
+        }
     }
 }

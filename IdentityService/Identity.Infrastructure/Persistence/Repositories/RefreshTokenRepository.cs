@@ -1,3 +1,5 @@
+using Identity.Application.Common.Errors;
+using Identity.Application.Common.Results;
 using Identity.Application.Interfaces.Repositories;
 using Identity.Application.Interfaces.Repositories.Commands;
 using Identity.Domain.Entities;
@@ -20,12 +22,20 @@ public sealed class RefreshTokenRepository(IdentityDbContext context) : IRefresh
                 cancellationToken);
     }
 
-    public async Task SaveChangesAsync(CancellationToken cancellationToken)
+    public async Task<Result> SaveChangesAsync(CancellationToken cancellationToken)
     {
-        await context.SaveChangesAsync(cancellationToken);
+        try
+        {
+            await context.SaveChangesAsync(cancellationToken);
+            return Result.Success();
+        }
+        catch (DbUpdateConcurrencyException ex)
+        {
+            return Result.Failure(CommonErrors.ConcurrencyConflict);
+        }
     }
 
-    public async Task RevokeAllByUserIdAsync(Guid userId, DateTime revokedAt,CancellationToken cancellationToken)
+    public async Task RevokeAllByUserIdAsync(Guid userId, DateTime revokedAt, CancellationToken cancellationToken)
     {
         await context.RefreshTokens
             .Where(x => x.UserId == userId)

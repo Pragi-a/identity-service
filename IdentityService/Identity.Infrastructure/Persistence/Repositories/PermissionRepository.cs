@@ -1,3 +1,5 @@
+using Identity.Application.Common.Errors;
+using Identity.Application.Common.Results;
 using Identity.Application.Interfaces.Repositories.Commands;
 using Identity.Domain.Entities;
 using Microsoft.EntityFrameworkCore;
@@ -23,8 +25,16 @@ public sealed class PermissionRepository(IdentityDbContext context) : IPermissio
             .FirstOrDefaultAsync(p => p.Id == id, cancellationToken);
     }
 
-    public async Task SaveChangesAsync(CancellationToken cancellationToken)
+    public async Task<Result> SaveChangesAsync(CancellationToken cancellationToken)
     {
-        await context.SaveChangesAsync(cancellationToken);
+        try
+        {
+            await context.SaveChangesAsync(cancellationToken);
+            return Result.Success();
+        }
+        catch (DbUpdateConcurrencyException ex)
+        {
+            return Result.Failure(CommonErrors.ConcurrencyConflict);
+        }
     }
 }

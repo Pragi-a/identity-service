@@ -30,8 +30,9 @@ public sealed class CreateUserHandler(
 
         var passwordHash = passwordHasher.HashPassword(request.Password);
 
-
-        var user = new User(email, passwordHash, request.FirstName, request.LastName);
+        var firstName = new Name(request.FirstName);
+        var lastName = new Name(request.LastName);
+        var user = new User(email, passwordHash, firstName, lastName);
 
         user.ReplaceRoles(request.RoleIds);
 

@@ -7,17 +7,19 @@ public sealed class User
     public Guid Id { get; private set; }
     public Email Email { get; private set; }
     public string PasswordHash { get; private set; }
-    public string FirstName { get; private set; }
-    public string LastName { get; private set; }
+    public Name FirstName { get; private set; }
+    public Name LastName { get; private set; }
     public bool IsActive { get; private set; }
     public DateTime CreatedAt { get; private set; }
+
+    public Guid Version { get; private set; }
 
     private readonly List<UserRole> _roles = [];
 
     public IReadOnlyCollection<UserRole> Roles => _roles;
 
 
-    public User(Email email, string passwordHash, string firstName, string lastName)
+    public User(Email email, string passwordHash, Name firstName, Name lastName)
     {
         Id = Guid.NewGuid();
         IsActive = true;
@@ -69,5 +71,25 @@ public sealed class User
         {
             AddRole(role);
         }
+    }
+
+    public void UpdateEmail(Email email)
+    {
+        Email = email;
+    }
+
+    public void UpdateFirstName(Name firstName)
+    {
+        FirstName = firstName;
+    }
+
+    public void UpdateLastName(Name lastName)
+    {
+        LastName = lastName;
+    }
+
+    public void UpdateVersion()
+    {
+        Version = Guid.NewGuid();
     }
 }

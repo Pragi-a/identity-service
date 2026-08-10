@@ -104,7 +104,9 @@ public sealed class DatabaseSeeder(IdentityDbContext context, IPasswordHasher pa
         var passwordHash = passwordHasher.HashPassword("Admin@123456");
 
         var email = new Email("admin@amazonclone.local");
-        var user = new User(email, passwordHash, "Admin", "Admin");
+        var firstName = new Name("Admin");
+        var lastName = new Name("Admin");
+        var user = new User(email, passwordHash, firstName, lastName);
         user.AddRole(adminRoleId);
 
         await context.Users.AddAsync(user);

@@ -1,3 +1,4 @@
+using Identity.Application.Common.Results;
 using Identity.Domain.Entities;
 using Identity.Domain.ValueObjects;
 
@@ -9,7 +10,7 @@ public interface IUserRepository
     
     Task AddAsync(User user, CancellationToken cancellationToken);
     
-    Task SaveChangesAsync(CancellationToken cancellationToken);
+    Task<Result> SaveChangesAsync(CancellationToken cancellationToken);
     
     Task<User?> GetByEmailAsync(Email email, CancellationToken cancellationToken);
     

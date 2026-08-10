@@ -13,6 +13,14 @@
 - [ ] **Domain Events** (In-process event dispatching)
 - [ ] **Automated Testing** (Unit & Integration test suites)
 
+-- Current Pending Items
+    1. Seeding the Version while Creating an User
+    2. Resource Based Authorization
+    3. Exception Handling
+    4. Repeated code in the Controllers
+    5. IUnitOfWork
+    6. ICurrentUser
+
 ---
 
 ### 2. Architecture & Patterns
