@@ -12,7 +12,7 @@ public static class UpdateUserEndpoint
     public static IEndpointRouteBuilder MapUpdateUserEndpoint(this IEndpointRouteBuilder app)
     {
         app.MapPut("/api/users/{id}",
-                async ([AsParameters] Guid userId, [FromBody] UpdateUserRequest request, ISender sender,
+                async ([FromRoute] Guid userId, [FromBody] UpdateUserRequest request, ISender sender,
                     CancellationToken cancellationToken) =>
                 {
                     var command = new UpdateUserCommand(userId, request.Email, request.FirstName, request.LastName,

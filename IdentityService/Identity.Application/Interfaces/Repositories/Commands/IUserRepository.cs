@@ -16,4 +16,6 @@ public interface IUserRepository
     
     Task<User?> GetByIdAsync(Guid userId, CancellationToken cancellationToken);
     
+    Task DeleteAsync(User user, CancellationToken cancellationToken);
+    
 }

@@ -50,4 +50,10 @@ public sealed class UserRepository(IdentityDbContext context) : IUserRepository
             .Include(x => x.Roles)
             .FirstOrDefaultAsync(x => x.Id == userId, cancellationToken);
     }
+
+    public Task DeleteAsync(User user, CancellationToken cancellationToken)
+    {
+        context.Users.Remove(user);
+        return Task.CompletedTask;
+    }
 }
