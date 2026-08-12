@@ -96,11 +96,15 @@ public sealed class User
 
     public void Activate()
     {
+        if (IsActive)
+            return;
         IsActive = true;
     }
 
     public void DeActivate()
     {
+        if (!IsActive)
+            return;
         IsActive = false;
     }
 }

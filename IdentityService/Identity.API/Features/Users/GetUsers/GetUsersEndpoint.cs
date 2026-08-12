@@ -19,7 +19,7 @@ public static class GetUsersEndpoint
 
                     if (result.IsFailure)
                     {
-                        return Results.BadRequest(result.Error);
+                        return Results.BadRequest(new  { error = result.Error });
                     }
 
                     return Results.Ok(result.Value);

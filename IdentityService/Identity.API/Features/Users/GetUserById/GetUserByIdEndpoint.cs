@@ -25,7 +25,7 @@ public static class GetUserByIdEndpoint
                         {
                             return Results.NotFound(new
                             {
-                                error = result.Error
+                                error = UserErrors.UserNotFound.Message
                             });
                         }
 

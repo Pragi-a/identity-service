@@ -25,7 +25,7 @@ public static class DeleteUserEndpoint
                             return Results.NotFound(
                                 new
                                 {
-                                    Error = result.Error,
+                                    Error = UserErrors.UserNotFound.Message,
                                 });
                         }
 
