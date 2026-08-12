@@ -36,16 +36,5 @@ public sealed class RoleRepository(IdentityDbContext context) : IRoleRepository
         await context.Roles.AddAsync(role, cancellationToken);
     }
 
-    public async Task<Result> SaveChangesAsync(CancellationToken cancellationToken)
-    {
-        try
-        {
-            await context.SaveChangesAsync(cancellationToken);
-            return Result.Success();
-        }
-        catch (DbUpdateConcurrencyException e)
-        {
-            return Result.Failure(CommonErrors.ConcurrencyConflict);
-        }
-    }
+
 }

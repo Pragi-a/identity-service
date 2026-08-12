@@ -7,7 +7,7 @@ namespace Identity.Application.Common.Behaviours;
 
 public class ValidationBehaviour<TRequest, TResponse>(IEnumerable<IValidator<TRequest>> validators)
     : IPipelineBehavior<TRequest, Result<TResponse>>
-    where TRequest : notnull, IRequest<Result<TResponse>>
+    where TRequest : IRequest<Result<TResponse>>
 {
     public async Task<Result<TResponse>> Handle(TRequest request, RequestHandlerDelegate<Result<TResponse>> next,
         CancellationToken cancellationToken)

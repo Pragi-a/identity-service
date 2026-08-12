@@ -1,5 +1,6 @@
 using Identity.Application.Common.Errors;
 using Identity.Application.Common.Results;
+using Identity.Application.Interfaces;
 using Identity.Application.Interfaces.Repositories;
 using Identity.Application.Interfaces.Repositories.Commands;
 using Identity.Application.Interfaces.Repositories.Queries;
@@ -17,7 +18,8 @@ public class LoginHandler(
     IRefreshTokenRepository refreshTokenRepository,
     IRefreshTokenHasher refreshTokenHasher,
     IRefreshTokenGenerator refreshTokenGenerator,
-    IUserAuthorizationQueries userAuthorizationQueries)
+    IUserAuthorizationQueries userAuthorizationQueries,
+    IUnitOfWork unitOfWork)
     : IRequestHandler<LoginCommand, Result<LoginResponse>>
 {
     public async Task<Result<LoginResponse>> Handle(LoginCommand request, CancellationToken cancellationToken)
@@ -46,7 +48,7 @@ public class LoginHandler(
             DateTime.UtcNow.AddDays(30));
         
         await refreshTokenRepository.AddRefreshToken(refreshToken, cancellationToken);
-        await refreshTokenRepository.SaveChangesAsync(cancellationToken);
+        await unitOfWork.SaveChangesAsync(cancellationToken);
         
         return Result<LoginResponse>.Success(new LoginResponse(accessToken, refreshTokenString, string.Empty));
     }

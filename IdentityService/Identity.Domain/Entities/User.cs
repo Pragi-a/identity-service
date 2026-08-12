@@ -9,10 +9,11 @@ public sealed class User
     public string PasswordHash { get; private set; }
     public Name FirstName { get; private set; }
     public Name LastName { get; private set; }
-    public bool IsActive { get; private set; }
+    public bool IsActive { get; private set; } = true;
     public DateTime CreatedAt { get; private set; }
 
-    public Guid Version { get; private set; }
+    public Guid Version { get; private set; } = Guid.NewGuid();
+
 
     private readonly List<UserRole> _roles = [];
 
@@ -91,5 +92,15 @@ public sealed class User
     public void UpdateVersion()
     {
         Version = Guid.NewGuid();
+    }
+
+    public void Activate()
+    {
+        IsActive = true;
+    }
+
+    public void DeActivate()
+    {
+        IsActive = false;
     }
 }

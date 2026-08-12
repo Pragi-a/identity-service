@@ -22,18 +22,6 @@ public sealed class RefreshTokenRepository(IdentityDbContext context) : IRefresh
                 cancellationToken);
     }
 
-    public async Task<Result> SaveChangesAsync(CancellationToken cancellationToken)
-    {
-        try
-        {
-            await context.SaveChangesAsync(cancellationToken);
-            return Result.Success();
-        }
-        catch (DbUpdateConcurrencyException ex)
-        {
-            return Result.Failure(CommonErrors.ConcurrencyConflict);
-        }
-    }
 
     public async Task RevokeAllByUserIdAsync(Guid userId, DateTime revokedAt, CancellationToken cancellationToken)
     {

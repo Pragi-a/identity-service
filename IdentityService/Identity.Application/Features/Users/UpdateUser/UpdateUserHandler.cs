@@ -1,13 +1,15 @@
 using Identity.Application.Common.Errors;
 using MediatR;
 using Identity.Application.Common.Results;
+using Identity.Application.Interfaces;
 using Identity.Application.Interfaces.Repositories.Commands;
 using Identity.Domain.ValueObjects;
 
 namespace Identity.Application.Features.Users.UpdateUser;
 
 public sealed class UpdateUserHandler(
-    IUserRepository userRepository
+    IUserRepository userRepository,
+    IUnitOfWork unitOfWork
 ) : IRequestHandler<UpdateUserCommand, Result<UpdateUserResponse>>
 {
     public async Task<Result<UpdateUserResponse>> Handle(UpdateUserCommand request, CancellationToken cancellationToken)
@@ -26,7 +28,7 @@ public sealed class UpdateUserHandler(
         user.UpdateEmail(email);
         user.ReplaceRoles(request.RoleIds);
 
-        var result = await userRepository.SaveChangesAsync(cancellationToken);
+        var result = await unitOfWork.SaveChangesAsync(cancellationToken);
 
         if (result.IsFailure)
         {

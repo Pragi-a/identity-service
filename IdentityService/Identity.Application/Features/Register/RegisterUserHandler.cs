@@ -10,7 +10,7 @@ using MediatR;
 
 namespace Identity.Application.Features.Register;
 
-public class RegisterUserHandler(IUserRepository userRepository, IPasswordHasher passwordHasher)
+public class RegisterUserHandler(IUserRepository userRepository, IPasswordHasher passwordHasher, IUnitOfWork unitOfWork)
     : IRequestHandler<RegisterUserCommand, Result<RegisterUserResponse>>
 {
     public async Task<Result<RegisterUserResponse>> Handle(RegisterUserCommand request,
@@ -33,7 +33,7 @@ public class RegisterUserHandler(IUserRepository userRepository, IPasswordHasher
 
         //save the user
         await userRepository.AddAsync(user, cancellationToken);
-        await userRepository.SaveChangesAsync(cancellationToken);
+        await unitOfWork.SaveChangesAsync(cancellationToken);
 
         //return success
         return Result<RegisterUserResponse>.Success(new RegisterUserResponse(user.Id));

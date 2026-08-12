@@ -1,11 +1,12 @@
 using Identity.Application.Common.Errors;
 using Identity.Application.Common.Results;
+using Identity.Application.Interfaces;
 using Identity.Application.Interfaces.Repositories.Commands;
 using MediatR;
 
 namespace Identity.Application.Features.Users.DeleteUser;
 
-public sealed class DeleteUserHandler(IUserRepository userRepository)
+public sealed class DeleteUserHandler(IUserRepository userRepository,IUnitOfWork unitOfWork)
     : IRequestHandler<DeleteUserCommand, Result<DeleteUserResponse>>
 {
     public async Task<Result<DeleteUserResponse>> Handle(DeleteUserCommand request, CancellationToken cancellationToken)
@@ -18,7 +19,7 @@ public sealed class DeleteUserHandler(IUserRepository userRepository)
         }
 
         await userRepository.DeleteAsync(user, cancellationToken);
-        var result = await userRepository.SaveChangesAsync(cancellationToken);
+        var result = await unitOfWork.SaveChangesAsync(cancellationToken);
 
         if (result.IsFailure)
         {

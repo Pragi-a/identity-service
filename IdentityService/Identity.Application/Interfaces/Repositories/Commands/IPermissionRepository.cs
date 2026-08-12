@@ -11,6 +11,4 @@ public interface IPermissionRepository
     
     Task<Permission?> GetByIdAsync(Guid id, CancellationToken cancellationToken);
     
-    Task<Result> SaveChangesAsync(CancellationToken cancellationToken);
-    
 }

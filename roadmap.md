@@ -145,3 +145,7 @@
 - [ ] **Phase 3: Domain & Integration Events** (Outbox Pattern, RabbitMQ Messaging)
 - [ ] **Phase 4: Resilience, Observability & Test Automation** (Polly, OpenTelemetry, Testcontainers)
 - [ ] **Phase 5: Production Deployment & Containerization** (Docker, Health Checks, ECS)
+
+Additional Items
+1. Logging
+2. Observability

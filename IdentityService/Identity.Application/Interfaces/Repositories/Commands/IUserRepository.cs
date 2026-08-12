@@ -10,8 +10,6 @@ public interface IUserRepository
     
     Task AddAsync(User user, CancellationToken cancellationToken);
     
-    Task<Result> SaveChangesAsync(CancellationToken cancellationToken);
-    
     Task<User?> GetByEmailAsync(Email email, CancellationToken cancellationToken);
     
     Task<User?> GetByIdAsync(Guid userId, CancellationToken cancellationToken);

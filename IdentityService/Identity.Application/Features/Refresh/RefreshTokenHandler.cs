@@ -1,7 +1,7 @@
 using Identity.Application.Common.Errors;
 using Identity.Application.Common.Results;
 using Identity.Application.Features.Login;
-using Identity.Application.Interfaces.Repositories;
+using Identity.Application.Interfaces;
 using Identity.Application.Interfaces.Repositories.Commands;
 using Identity.Application.Interfaces.Repositories.Queries;
 using Identity.Application.Interfaces.Security;
@@ -16,7 +16,8 @@ public class RefreshTokenHandler(
     IRefreshTokenHasher refreshTokenHasher,
     ITokenProvider tokenProvider,
     IRefreshTokenGenerator refreshTokenGenerator,
-    IUserAuthorizationQueries userAuthorizationQueries)
+    IUserAuthorizationQueries userAuthorizationQueries,
+    IUnitOfWork  unitOfWork)
     : IRequestHandler<RefreshTokenCommand, Result<LoginResponse>>
 {
     public async Task<Result<LoginResponse>> Handle(RefreshTokenCommand request, CancellationToken cancellationToken)
@@ -53,7 +54,7 @@ public class RefreshTokenHandler(
         );
 
         await refreshTokenRepository.AddRefreshToken(newRefreshToken, cancellationToken);
-        await refreshTokenRepository.SaveChangesAsync(cancellationToken);
+        await unitOfWork.SaveChangesAsync(cancellationToken);
 
         return Result<LoginResponse>.Success(new LoginResponse(accessToken, newRefreshTokenStr, string.Empty));
     }
