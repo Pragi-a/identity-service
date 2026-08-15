@@ -2,17 +2,19 @@ namespace Identity.Domain.Entities;
 
 public sealed class RefreshToken
 {
-    public Guid Id { get; init; } 
+    public Guid Id { get; init; }
 
-    public string TokenHash { get; init; } 
+    public string TokenHash { get; init; }
 
-    public Guid UserId { get; init; } 
-    
+    public Guid UserId { get; init; }
+
     public DateTime CreatedAt { get; init; }
 
     public DateTime ExpiresAt { get; init; }
 
     public DateTime? RevokedAt { get; private set; }
+
+    public Guid Version { get; private set; } = Guid.NewGuid();
 
     public bool IsRevoked => RevokedAt is not null;
 
@@ -33,6 +35,7 @@ public sealed class RefreshToken
     public void Revoke(DateTime utcNow)
     {
         if (IsRevoked) return;
+        Version = Guid.NewGuid();
         this.RevokedAt = utcNow;
     }
 
@@ -40,7 +43,7 @@ public sealed class RefreshToken
     {
         if (string.IsNullOrWhiteSpace(tokenHash))
             throw new ArgumentException("Invalid token hash for refresh token.");
-        
+
         if (userId == Guid.Empty)
             throw new ArgumentException("Invalid user id.");
 
@@ -49,5 +52,4 @@ public sealed class RefreshToken
 
         return new RefreshToken(Guid.NewGuid(), tokenHash, userId, createdAt, expiresAt);
     }
-    
 }

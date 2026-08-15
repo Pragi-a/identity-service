@@ -3,13 +3,15 @@ namespace Identity.Application.Common.Errors;
 public static class UserErrors
 {
     public static readonly Error EmailAlreadyExists = new Error("email_already_exists", "Email is already in use");
-    
+
     public static readonly Error InvalidCredentials = new Error("invalid_credentials", "Invalid credentials");
-    
+
     public static readonly Error UserNotFound = new Error("user_not_found", "User not found");
-    
+
     public static readonly Error InvalidRefreshToken = new Error("invalid_refresh_token", "Invalid refresh token");
-    
+
     public static readonly Error InvalidRole = new Error("invalid_role", "Selected Role is invalid");
-    
+
+    public static readonly Error AlreadyUsedRefreshToken =
+        new Error("already_used_refresh_token", "Already used refresh token");
 }

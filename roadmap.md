@@ -150,3 +150,97 @@ Additional Items
 1. Logging
 2. Observability
 3. IClock abstraction
+
+
+
+
+Identity Service — Pending Topics
+1. Authorization — remaining
+JWT permission staleness / permission changes after token issuance
+Authorization caching and consistency
+Resource-based authorization
+RBAC vs permission-based authorization — when each is appropriate
+ABAC — when it becomes useful
+Final authorization architecture review
+
+2. API Security
+CORS
+CSRF — when it matters for our authentication model
+Rate limiting / throttling
+Brute-force protection
+Security headers
+Input/security boundaries
+Authentication vs authorization failure semantics (401 vs 403)
+
+3. Error Handling & API Resilience
+Global exception handling
+Exception → Result / Problem Details mapping
+Consistent API error contract
+Logging strategy
+Correlation IDs
+Handling unexpected infrastructure failures
+
+4. Persistence / EF Core — deeper topics
+Optimistic concurrency — we've touched it, but can go deeper if needed
+EF Core tracking vs AsNoTracking
+Query performance
+Transactions and isolation levels
+N+1 queries
+Database constraints vs application validation
+Indexing strategy
+
+5. Testing
+Unit testing domain logic
+Handler testing
+Behavior/pipeline testing
+Integration testing with PostgreSQL
+Testing transactions and rollback
+Authorization integration tests
+Testcontainers
+
+6. Observability
+Structured logging
+Metrics
+Distributed tracing
+OpenTelemetry
+Request/operation correlation
+Health checks
+
+7. Architecture / Production concerns
+Dependency boundaries and project structure review
+Vertical Slice Architecture review
+CQRS boundaries
+Outbox Pattern
+Domain Events
+Idempotency
+Background processing
+Distributed-system considerations
+8. Deployment / AWS
+Docker production setup
+Configuration/secrets
+AWS deployment architecture
+Database migrations
+Health checks
+CI/CD
+Monitoring in AWS
+Already covered / intentionally skipped
+
+Covered:
+
+Result pattern
+Validation behavior
+MediatR pipeline
+Unit of Work
+Explicit transactions
+Transaction behavior
+Deactivation
+RBAC/permissions foundation
+Dynamic permission policies
+JWT permissions
+
+Skipped in this branch:
+
+Refresh-token rotation
+Token families
+Reuse detection
+Session revocation

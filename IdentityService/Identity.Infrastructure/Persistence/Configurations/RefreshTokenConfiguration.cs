@@ -17,26 +17,29 @@ public sealed class RefreshTokenConfiguration : IEntityTypeConfiguration<Refresh
             .HasColumnName("refresh_token_id")
             .ValueGeneratedNever()
             .IsRequired();
-        
+
         builder.Property(x => x.UserId)
             .HasColumnName("user_id")
             .IsRequired();
-        
+
         builder.Property(x => x.TokenHash)
             .HasColumnName("token_hash")
             .IsRequired();
-        
+
         builder.Property(x => x.CreatedAt)
             .HasColumnName("created_at")
             .IsRequired();
-        
+
         builder.Property(x => x.ExpiresAt)
             .HasColumnName("expires_at")
             .IsRequired();
-        
+
         builder.Property(x => x.RevokedAt)
             .HasColumnName("revoked_at");
-        
+
+        builder.Property(x => x.Version)
+            .IsConcurrencyToken();
+
         builder.HasIndex(x => x.TokenHash)
             .HasDatabaseName("ux_refresh_tokens")
             .IsUnique();

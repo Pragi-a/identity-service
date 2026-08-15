@@ -1,7 +1,6 @@
 using Identity.Application.Common.Errors;
 using Identity.Application.Common.Results;
 using Identity.Application.Features.Login;
-using Identity.Application.Interfaces;
 using Identity.Application.Interfaces.Repositories.Commands;
 using Identity.Application.Interfaces.Repositories.Queries;
 using Identity.Application.Interfaces.Security;
@@ -16,16 +15,15 @@ public class RefreshTokenHandler(
     IRefreshTokenHasher refreshTokenHasher,
     ITokenProvider tokenProvider,
     IRefreshTokenGenerator refreshTokenGenerator,
-    IUserAuthorizationQueries userAuthorizationQueries,
-    IUnitOfWork  unitOfWork)
+    IUserAuthorizationQueries userAuthorizationQueries)
     : IRequestHandler<RefreshTokenCommand, Result<LoginResponse>>
 {
     public async Task<Result<LoginResponse>> Handle(RefreshTokenCommand request, CancellationToken cancellationToken)
     {
-        if (string.IsNullOrWhiteSpace(request.refreshToken))
+        if (string.IsNullOrWhiteSpace(request.RefreshToken))
             return Result<LoginResponse>.Failure(UserErrors.InvalidRefreshToken);
 
-        var refreshTokenHash = refreshTokenHasher.HashToken(request.refreshToken);
+        var refreshTokenHash = refreshTokenHasher.HashToken(request.RefreshToken);
 
         var refreshToken = await refreshTokenRepository.GetByRefreshTokenAsync(refreshTokenHash, cancellationToken);
 
@@ -38,13 +36,26 @@ public class RefreshTokenHandler(
         if (user is null || !user.IsActive)
             return Result<LoginResponse>.Failure(UserErrors.InvalidRefreshToken);
 
+        
+        /*
+         When 2 requests comes in for refreshing a token, 2 refresh tokens would branch out from the 1st token because of concurrency
+         In order to avoid that we use direct set-based update here. 
+         This is in violation of the DDD rule of hydrating and then updating the aggregate. 
+         Should modify this later.
+        
+        */
+        var refreshed = await  refreshTokenRepository.TryConsumeAsync(refreshToken.Id, DateTime.UtcNow, cancellationToken);
+
+        if (!refreshed)
+        {
+            return Result<LoginResponse>.Failure(UserErrors.AlreadyUsedRefreshToken);
+        }
+        
         var permissionCodes = await userAuthorizationQueries.GetPermissionCodesAsync(user.Id, cancellationToken);
         var accessToken = tokenProvider.GenerateAccessToken(user, permissionCodes);
 
         var newRefreshTokenStr = refreshTokenGenerator.GenerateRefreshToken();
         var hashedRefreshToken = refreshTokenHasher.HashToken(newRefreshTokenStr);
-
-        refreshToken.Revoke(DateTime.UtcNow);
 
         var newRefreshToken = RefreshToken.Create(
             hashedRefreshToken,
@@ -54,7 +65,6 @@ public class RefreshTokenHandler(
         );
 
         await refreshTokenRepository.AddRefreshToken(newRefreshToken, cancellationToken);
-        await unitOfWork.SaveChangesAsync(cancellationToken);
 
         return Result<LoginResponse>.Success(new LoginResponse(accessToken, newRefreshTokenStr, string.Empty));
     }

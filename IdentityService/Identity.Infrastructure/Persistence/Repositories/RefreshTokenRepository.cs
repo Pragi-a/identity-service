@@ -28,4 +28,14 @@ public sealed class RefreshTokenRepository(IdentityDbContext context) : IRefresh
                 x => x.SetProperty(t => t.RevokedAt, revokedAt),
                 cancellationToken);
     }
+
+    public async Task<bool> TryConsumeAsync(Guid refreshTokenId, DateTime revokedAt,
+        CancellationToken cancellationToken)
+    {
+        var affectedRows =
+            await context.RefreshTokens
+                .Where(x => x.Id == refreshTokenId && x.RevokedAt == null)
+                .ExecuteUpdateAsync(x => x.SetProperty(x => revokedAt, revokedAt), cancellationToken);
+        return affectedRows == 1;
+    }
 }

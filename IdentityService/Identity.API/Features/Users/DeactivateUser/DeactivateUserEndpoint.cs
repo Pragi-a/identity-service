@@ -1,8 +1,8 @@
+using MediatR;
 using Identity.API.Authorization;
 using Identity.Application.Authorization;
 using Identity.Application.Common.Errors;
 using Identity.Application.Features.Users.DeactivateUser;
-using MediatR;
 using Microsoft.AspNetCore.Mvc;
 
 namespace Identity.API.Features.Users.DeactivateUser;
