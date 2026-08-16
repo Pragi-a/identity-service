@@ -5,6 +5,7 @@ using Identity.API.Features.Register;
 using Identity.API.Features.Users.CreateUser;
 using Identity.API.Features.Users.GetUserById;
 using Identity.API.Features.Users.GetUsers;
+using Identity.API.Features.Users.UpdateUser;
 
 namespace Identity.API.DependencyInjection;
 
@@ -19,6 +20,7 @@ public static class EndpointRegistration
         app.MapCreateUserEndpoint();
         app.MapGetUsersEndpoint();
         app.MapGetUserByIdEndpoint();
+        app.MapUpdateUserEndpoint();
         return app;
     }
 }
