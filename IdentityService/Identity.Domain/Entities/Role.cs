@@ -1,6 +1,9 @@
+using Identity.Domain.Common;
+using Identity.Domain.Events;
+
 namespace Identity.Domain.Entities;
 
-public sealed class Role
+public sealed class Role : Entity
 {
     public Guid Id { get; private set; }
 
@@ -44,6 +47,8 @@ public sealed class Role
 
 
         _permissions.Add(RolePermission.Create(permissionId));
+
+        RaisePermissionChanged();
     }
 
     public void RemovePermission(Guid permissionId)
@@ -53,6 +58,8 @@ public sealed class Role
         if (rolePermission == null)
             return;
         _permissions.Remove(rolePermission);
+        
+        RaisePermissionChanged();
     }
 
     public bool HasPermission(Guid permissionId)
@@ -84,7 +91,14 @@ public sealed class Role
         var distinctPermissionIds = permissionIds.Distinct();
         foreach (var permissionId in distinctPermissionIds)
         {
-            AddPermission(permissionId);
+            _permissions.Add(RolePermission.Create(permissionId));
         }
+        
+        RaisePermissionChanged();
+    }
+
+    private void RaisePermissionChanged()
+    {
+        AddDomainEvent(new RolePermissionsChanged(Guid.NewGuid(), DateTime.Now, Id));
     }
 }
