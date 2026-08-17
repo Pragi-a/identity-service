@@ -1,0 +1,3 @@
+namespace Identity.Application.Features.Roles.UpdateRolePermissions;
+
+public sealed record UpdateRolePermissionsResponse;

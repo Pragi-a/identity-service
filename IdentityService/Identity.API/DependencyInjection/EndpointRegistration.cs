@@ -2,6 +2,7 @@ using Identity.API.Features.Login;
 using Identity.API.Features.Me;
 using Identity.API.Features.Refresh;
 using Identity.API.Features.Register;
+using Identity.API.Features.Roles.UpdateRolePermissions;
 using Identity.API.Features.Users.CreateUser;
 using Identity.API.Features.Users.GetUserById;
 using Identity.API.Features.Users.GetUsers;
@@ -21,6 +22,7 @@ public static class EndpointRegistration
         app.MapGetUsersEndpoint();
         app.MapGetUserByIdEndpoint();
         app.MapUpdateUserEndpoint();
+        app.MapUpdateRolePermissions();
         return app;
     }
 }

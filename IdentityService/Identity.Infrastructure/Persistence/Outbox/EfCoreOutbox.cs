@@ -10,14 +10,13 @@ public sealed class EfCoreOutbox(IdentityDbContext dbContext) : IOutbox
         var message = new OutboxMessage(
             integrationEvent.EventId,
             integrationEvent.GetType().Name,
-            JsonSerializer.Serialize(integrationEvent),
+            JsonSerializer.Serialize(integrationEvent, integrationEvent.GetType()),
             integrationEvent.OccurredAt,
             integrationEvent.CorrelationId
         );
-        
+
         dbContext.OutboxMessages.Add(message);
 
         return Task.CompletedTask;
-
     }
 }

@@ -99,6 +99,6 @@ public sealed class Role : Entity
 
     private void RaisePermissionChanged()
     {
-        AddDomainEvent(new RolePermissionsChanged(Guid.NewGuid(), DateTime.Now, Id));
+        AddDomainEvent(new RolePermissionsChanged(Guid.NewGuid(), DateTime.UtcNow, Id));
     }
 }

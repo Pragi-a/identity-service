@@ -48,7 +48,7 @@ public static class UpdateUserEndpoint
                     return Results.Ok(result.Value);
                 })
             .WithMetadata(new HasPermissionAttribute(PermissionCodes.Users.Update.Code))
-            .WithTags("users")
+            .WithTags("Users")
             .WithName("UpdateUser")
             .WithSummary("User Update")
             .WithDescription("Updates an existing user")
