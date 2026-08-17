@@ -18,9 +18,19 @@ public sealed class OutboxMessage
 
     public string? Error { get; private set; }
 
-    
-    private OutboxMessage(){}
-    public OutboxMessage(Guid id, string eventType,string payload, DateTime occurredAt, string correlationId)
+    public DateTime? ProcessingStartedAt { get; private set; }
+
+    public string? ProcessingBy { get; private set; }
+
+    public DateTime? NextAttemptAt { get; private set; }
+
+    public DateTime? FailedAt { get; private set; }
+
+    private OutboxMessage()
+    {
+    }
+
+    public OutboxMessage(Guid id, string eventType, string payload, DateTime occurredAt, string correlationId)
     {
         Id = id;
         EventType = eventType;
@@ -28,5 +38,39 @@ public sealed class OutboxMessage
         OccurredAt = occurredAt;
         CorrelationId = correlationId;
         RetryCount = 0;
+    }
+
+    public void Claim(string processorId, DateTime processingStartedAt)
+    {
+        ProcessingBy = processorId;
+        ProcessingStartedAt = processingStartedAt;
+    }
+
+    public void MarkPublished(DateTime publishedAt)
+    {
+        PublishedAt = publishedAt;
+        ProcessingStartedAt = null;
+        ProcessingBy = null;
+        Error = null;
+    }
+
+    public void MarkFailed(string error, DateTime nextAttemptAt)
+    {
+        RetryCount++;
+        Error = error;
+        ProcessingStartedAt = null;
+        ProcessingBy = null;
+
+        NextAttemptAt = nextAttemptAt;
+    }
+
+    public void MarkPermanentlyFailed(string error, DateTime failedAt)
+    {
+        RetryCount++;
+        Error = error;
+        FailedAt = failedAt;
+        NextAttemptAt = null;
+        ProcessingBy = null;
+        ProcessingStartedAt = null;
     }
 }

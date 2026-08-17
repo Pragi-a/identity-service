@@ -1,9 +1,10 @@
 using System.Diagnostics;
 using Identity.Application.Common.Events;
+using Identity.Application.Interfaces;
 using Identity.Domain.Events;
 using MediatR;
 
-namespace Identity.Application.Common.DomainEvents;
+namespace Identity.Application.Common.DomainEventHandlers;
 
 public sealed class RolePermissionsChangedHandler(IOutbox outbox) : INotificationHandler<RolePermissionsChanged>
 {

@@ -8,10 +8,10 @@ public sealed class OutboxMessageConfiguration : IEntityTypeConfiguration<Outbox
 {
     public void Configure(EntityTypeBuilder<OutboxMessage> builder)
     {
-        builder.ToTable("outbox_messages","auth");
-        
+        builder.ToTable("outbox_messages", "auth");
+
         builder.HasKey(x => x.Id);
-        
+
         builder.Property(x => x.EventType)
             .HasColumnName("event_type")
             .HasMaxLength(256)
@@ -35,6 +35,19 @@ public sealed class OutboxMessageConfiguration : IEntityTypeConfiguration<Outbox
 
         builder.Property(x => x.Error)
             .HasColumnName("error");
+
+        builder.Property(x => x.ProcessingStartedAt)
+            .HasColumnName("processing_started_at");
+
+        builder.Property(x => x.ProcessingBy)
+            .HasColumnName("processing_by");
+
+        builder.Property(x => x.NextAttemptAt)
+            .HasColumnName("next_attempt_at");
+
+        builder.Property(x => x.FailedAt)
+            .HasColumnName("failed_at");
+
 
         builder.HasIndex(x => x.PublishedAt)
             .HasDatabaseName("ix_outbox_messages_published_at");

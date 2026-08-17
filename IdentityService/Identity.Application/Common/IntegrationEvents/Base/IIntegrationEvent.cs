@@ -1,4 +1,4 @@
-namespace Identity.Application.Common.Events;
+namespace Identity.Application.Common.Events.Base;
 
 public interface IIntegrationEvent
 {

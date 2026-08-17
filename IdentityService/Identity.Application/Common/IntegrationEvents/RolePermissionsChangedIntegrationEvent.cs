@@ -1,3 +1,5 @@
+using Identity.Application.Common.Events.Base;
+
 namespace Identity.Application.Common.Events;
 
 public sealed record RolePermissionsChangedIntegrationEvent(

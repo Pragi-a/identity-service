@@ -1,4 +1,3 @@
-using Identity.Application.Common.Events;
 using Identity.Application.Interfaces;
 using Microsoft.EntityFrameworkCore;
 using Identity.Application.Interfaces.Repositories.Commands;
@@ -7,6 +6,7 @@ using Identity.Application.Interfaces.Security;
 using Identity.Infrastructure.Authorization;
 using Identity.Infrastructure.Persistence;
 using Identity.Infrastructure.Persistence.Outbox;
+using Identity.Infrastructure.Persistence.Outbox.Contracts;
 using Identity.Infrastructure.Persistence.Queries;
 using Identity.Infrastructure.Persistence.Repositories;
 using Identity.Infrastructure.Persistence.Seed;
@@ -46,7 +46,10 @@ public static class DependencyInjection
         services.AddScoped<IUserAuthorizationQueries, UserAuthorizationQueries>();
         services.AddScoped<IUnitOfWork, UnitOfWork>();
         services.AddScoped<IOutbox, EfCoreOutbox>();
-
+        services.AddScoped<IOutboxRepository, EfCoreOutboxRepository>();
+        services.AddScoped<IOutboxRetryPolicy, ExponentialBackoffRetryPolicy>();
+        services.AddScoped<IOutboxProcessor, OutboxProcessor>();
+        services.AddHostedService<OutboxBackgroundService>();
         //Persistence - Queries
         services.AddScoped<IUserQueries, UserQueries>();
 
