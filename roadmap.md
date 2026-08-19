@@ -244,3 +244,27 @@ Refresh-token rotation
 Token families
 Reuse detection
 Session revocation
+
+
+I think this is what we chose before
+
+--Cache Pattern
+Key: authz:user:{userId}
+Value: ["user:view", "user:update", "user:delete"]
+
+
+    Permission/Role change
+            ↓
+    Outbox event
+            ↓
+    Event consumer
+            ↓
+    Get affected users
+            ↓
+    Invalidate user caches
+            ↓
+    Next request → DB
+            ↓
+Rebuild effective permissions
+            ↓
+        Cache

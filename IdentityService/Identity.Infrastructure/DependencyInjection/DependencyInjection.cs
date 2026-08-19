@@ -4,6 +4,13 @@ using Identity.Application.Interfaces.Repositories.Commands;
 using Identity.Application.Interfaces.Repositories.Queries;
 using Identity.Application.Interfaces.Security;
 using Identity.Infrastructure.Authorization;
+using Identity.Infrastructure.Messaging.RabbitMq;
+using Identity.Infrastructure.Messaging.RabbitMq.Connection;
+using Identity.Infrastructure.Messaging.RabbitMq.Contracts;
+using Identity.Infrastructure.Messaging.RabbitMq.Contracts.Connection;
+using Identity.Infrastructure.Messaging.RabbitMq.Contracts.Routing;
+using Identity.Infrastructure.Messaging.RabbitMq.Contracts.Scaffolding;
+using Identity.Infrastructure.Messaging.RabbitMq.Scaffolding;
 using Identity.Infrastructure.Persistence;
 using Identity.Infrastructure.Persistence.Outbox;
 using Identity.Infrastructure.Persistence.Outbox.Contracts;
@@ -47,8 +54,10 @@ public static class DependencyInjection
         services.AddScoped<IUnitOfWork, UnitOfWork>();
         services.AddScoped<IOutbox, EfCoreOutbox>();
         services.AddScoped<IOutboxRepository, EfCoreOutboxRepository>();
-        services.AddScoped<IOutboxRetryPolicy, ExponentialBackoffRetryPolicy>();
+        services.AddSingleton<IOutboxRetryPolicy, ExponentialBackoffRetryPolicy>();
         services.AddScoped<IOutboxProcessor, OutboxProcessor>();
+
+        //Should move to worker service
         services.AddHostedService<OutboxBackgroundService>();
         //Persistence - Queries
         services.AddScoped<IUserQueries, UserQueries>();
@@ -59,6 +68,12 @@ public static class DependencyInjection
         services.AddScoped<ITokenProvider, JwtTokenProvider>();
         services.AddScoped<IRefreshTokenGenerator, RefreshTokenGenerator>();
         services.AddScoped<IRefreshTokenHasher, Sha256RefreshTokenHasher>();
+
+        //Messaging
+        services.Configure<RabbitMqOptions>(configuration.GetSection(RabbitMqOptions.SectionName));
+        services.AddSingleton<IRabbitMqConnection, RabbitMqConnection>();
+        services.AddSingleton<IRabbitMqTopologyInitializer, RabbitMqTopologyInitializerInitializer>();
+        services.AddSingleton<IIntegrationEventRoutingStrategy, IIntegrationEventRoutingStrategy>();
 
         return services;
     }

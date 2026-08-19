@@ -1,3 +1,5 @@
+using Identity.Infrastructure.Messaging.RabbitMq.Contracts;
+using Identity.Infrastructure.Messaging.RabbitMq.Contracts.Scaffolding;
 using Identity.Infrastructure.Persistence.Outbox.Contracts;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
@@ -5,14 +7,21 @@ using Microsoft.Extensions.Logging;
 
 namespace Identity.Infrastructure.Persistence.Outbox;
 
-public sealed class OutboxBackgroundService(IServiceScopeFactory scopeFactory, ILogger<OutboxBackgroundService> logger)
+public sealed class OutboxBackgroundService(
+    IServiceScopeFactory scopeFactory,
+    ILogger<OutboxBackgroundService> logger,
+    IRabbitMqTopologyInitializer topologyInitializer)
     : BackgroundService
 {
-    
     private static readonly TimeSpan PollingInterval = TimeSpan.FromSeconds(5);
+
     protected override async Task ExecuteAsync(CancellationToken stoppingToken)
     {
         logger.LogInformation("Outbox background service Started.");
+
+        await topologyInitializer.EnsureTopologyAsync(stoppingToken);
+
+        logger.LogInformation("RabbitMQ Topology initialized.");
 
         while (!stoppingToken.IsCancellationRequested)
         {
@@ -32,6 +41,7 @@ public sealed class OutboxBackgroundService(IServiceScopeFactory scopeFactory, I
             {
                 logger.LogError(e, "An error occurred while processing the Outbox.");
             }
+
             await Task.Delay(PollingInterval, stoppingToken);
         }
     }
