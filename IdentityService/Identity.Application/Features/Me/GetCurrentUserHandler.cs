@@ -1,4 +1,5 @@
 using Identity.Application.Common.Errors;
+using Identity.Application.Common.Errors.Helper;
 using Identity.Application.Common.Results;
 using Identity.Application.Interfaces;
 using Identity.Application.Interfaces.Repositories;

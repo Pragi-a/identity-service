@@ -34,7 +34,7 @@ public class Result
     public static Result Failure(Error error) => new Result(false, error);
 }
 
-public class Result<T> : Result
+public sealed class Result<T> : Result
 {
 
     private readonly T? _value;

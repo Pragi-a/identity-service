@@ -1,8 +1,7 @@
 using MediatR;
-using Microsoft.AspNetCore.Mvc;
 using Identity.API.Authorization;
+using Identity.API.Common.Results;
 using Identity.Application.Authorization;
-using Identity.Application.Common.Errors;
 using Identity.Application.Features.Users.GetUserById;
 
 namespace Identity.API.Features.Users.GetUserById;
@@ -11,7 +10,7 @@ public static class GetUserByIdEndpoint
 {
     public static IEndpointRouteBuilder MapGetUserByIdEndpoint(this IEndpointRouteBuilder app)
     {
-        app.MapGet("/api/users/{id}",
+        app.MapGet("/users/{id}",
                 async ([AsParameters] GetUserByIdRequest request, ISender sender,
                     CancellationToken cancellationToken) =>
                 {
@@ -19,23 +18,7 @@ public static class GetUserByIdEndpoint
 
                     var result = await sender.Send(query, cancellationToken);
 
-                    if (result.IsFailure)
-                    {
-                        if (result.Error == UserErrors.UserNotFound)
-                        {
-                            return Results.NotFound(new
-                            {
-                                error = UserErrors.UserNotFound.Message
-                            });
-                        }
-
-                        return Results.BadRequest(new
-                        {
-                            error = result.Error
-                        });
-                    }
-
-                    return Results.Ok(result.Value);
+                    return ApiResult<GetUserByIdResponse>.Create(result, _ => SuccessResponse.Ok());
                 })
             .WithMetadata(new HasPermissionAttribute(PermissionCodes.Users.View.Code))
             .WithName("GetUserById")

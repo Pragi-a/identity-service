@@ -1,6 +1,7 @@
 using MediatR;
 using FluentValidation;
 using Identity.Application.Common.Errors;
+using Identity.Application.Common.Errors.Helper;
 using Identity.Application.Common.Results;
 
 namespace Identity.Application.Common.Behaviours;

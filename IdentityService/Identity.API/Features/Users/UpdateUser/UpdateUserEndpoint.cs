@@ -1,8 +1,8 @@
 using Identity.API.Authorization;
+using Identity.API.Common.Results;
 using Identity.Application.Authorization;
 using MediatR;
 using Microsoft.AspNetCore.Mvc;
-using Identity.Application.Common.Errors;
 using Identity.Application.Features.Users.UpdateUser;
 
 namespace Identity.API.Features.Users.UpdateUser;
@@ -11,7 +11,7 @@ public static class UpdateUserEndpoint
 {
     public static IEndpointRouteBuilder MapUpdateUserEndpoint(this IEndpointRouteBuilder app)
     {
-        app.MapPut("/api/users/{userId}",
+        app.MapPut("/users/{userId}",
                 async ([FromRoute] Guid userId, [FromBody] UpdateUserRequest request, ISender sender,
                     CancellationToken cancellationToken) =>
                 {
@@ -20,32 +20,7 @@ public static class UpdateUserEndpoint
 
                     var result = await sender.Send(command, cancellationToken);
 
-                    if (result.IsFailure)
-                    {
-                        if (result.Error == CommonErrors.ConcurrencyConflict)
-                        {
-                            return Results.Conflict(
-                                new
-                                {
-                                    error = result.Error,
-                                }
-                            );
-                        }
-
-                        if (result.Error == UserErrors.UserNotFound)
-                        {
-                            return Results.NotFound(
-                                new
-                                {
-                                    error = result.Error,
-                                }
-                            );
-                        }
-
-                        return Results.BadRequest();
-                    }
-
-                    return Results.Ok(result.Value);
+                    return ApiResult<UpdateUserResponse>.Create(result, _ => SuccessResponse.Ok());
                 })
             .WithMetadata(new HasPermissionAttribute(PermissionCodes.Users.Update.Code))
             .WithTags("Users")

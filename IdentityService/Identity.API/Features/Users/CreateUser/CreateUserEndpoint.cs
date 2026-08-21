@@ -1,4 +1,5 @@
 using Identity.API.Authorization;
+using Identity.API.Common.Results;
 using Identity.Application.Authorization;
 using MediatR;
 using Identity.Application.Common.Errors;
@@ -11,7 +12,7 @@ public static class CreateUserEndpoint
 {
     public static IEndpointRouteBuilder MapCreateUserEndpoint(this IEndpointRouteBuilder app)
     {
-        app.MapPost("/api/users",
+        app.MapPost("/users",
                 async ([FromBody] CreateUserRequest request, ISender sender, CancellationToken cancellationToken) =>
                 {
                     var createUserCommand = new CreateUserCommand(
@@ -24,30 +25,8 @@ public static class CreateUserEndpoint
 
                     var result = await sender.Send(createUserCommand, cancellationToken);
 
-                    if (result.IsFailure)
-                    {
-                        if (result.Error == UserErrors.EmailAlreadyExists)
-                        {
-                            return Results.BadRequest(new
-                            {
-                                Error = UserErrors.EmailAlreadyExists.Message
-                            });
-                        }
-
-                        if (result.Error == UserErrors.InvalidRole)
-                        {
-                            return Results.BadRequest(new
-                            {
-                                Error = UserErrors.InvalidRole.Message
-                            });
-                        }
-
-                        return Results.BadRequest();
-                    }
-
-                    return  Results.Created(
-                        $"/api/users/{result.Value.Id}",
-                        result.Value);
+                    return ApiResult<CreateUserResponse>.Create(result,
+                        x => SuccessResponse.Created($"/api/users/{x.Id}"));
                 })
             .WithMetadata(new HasPermissionAttribute(PermissionCodes.Users.Create.Code))
             .WithName("CreateUser")
@@ -59,7 +38,7 @@ public static class CreateUserEndpoint
             .Produces(StatusCodes.Status401Unauthorized)
             .Produces(StatusCodes.Status403Forbidden)
             .WithOpenApi();
-        
+
         return app;
     }
 }

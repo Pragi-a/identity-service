@@ -1,4 +1,6 @@
-using Identity.Application.Common.Errors;
+using Identity.API.Authorization;
+using Identity.API.Common.Results;
+using Identity.Application.Authorization;
 using Identity.Application.Features.Login;
 using MediatR;
 using Microsoft.AspNetCore.Mvc;
@@ -7,30 +9,26 @@ namespace Identity.API.Features.Login;
 
 public static class LoginEndpoint
 {
-
     public static IEndpointRouteBuilder MapLoginEndpoint(this IEndpointRouteBuilder app)
     {
-        app.MapPost("api/auth/login", async ([FromBody] LoginRequest request, ISender sender) =>
-        {
-            var command = new LoginCommand(request.Email, request.Password);
-            
-            var user = await sender.Send(command);
-
-            if (user.IsFailure)
+        app.MapPost("/auth/login", async ([FromBody] LoginRequest request, ISender sender) =>
             {
-                if (user.Error == UserErrors.InvalidCredentials)
-                {
-                    return Results.BadRequest(new
-                    {
-                        Error = UserErrors.InvalidCredentials.Message,
-                    });
-                }
+                var command = new LoginCommand(request.Email, request.Password);
 
-                return Results.BadRequest();
-            }
+                var result = await sender.Send(command);
 
-            return Results.Ok(user.Value);
-        });
+                return ApiResult<LoginResponse>.Create(result, x => SuccessResponse.Ok());
+            })
+            .WithName("Login user")
+            .WithTags("Users")
+            .WithSummary("Logs in the user")
+            .WithDescription("Used to login an user")
+            .Produces<LoginResponse>()
+            .Produces(StatusCodes.Status200OK)
+            .Produces(StatusCodes.Status400BadRequest)
+            .Produces(StatusCodes.Status401Unauthorized)
+            .Produces(StatusCodes.Status403Forbidden)
+            .WithOpenApi();
 
         return app;
     }

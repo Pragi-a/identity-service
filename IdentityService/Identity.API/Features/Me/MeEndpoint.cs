@@ -1,6 +1,7 @@
 using System.IdentityModel.Tokens.Jwt;
 using System.Security.Claims;
 using Identity.Application.Common.Errors;
+using Identity.Application.Common.Errors.Helper;
 using Identity.Application.Features.Me;
 using MediatR;
 using Microsoft.AspNetCore.Mvc;

@@ -268,3 +268,45 @@ Value: ["user:view", "user:update", "user:delete"]
 Rebuild effective permissions
             ↓
         Cache
+
+
+Error/Exception Handling
+
+                 Application
+                     │
+       ┌─────────────┴─────────────┐
+       │                           │
+ Expected outcome            Unexpected failure
+       │                           │
+       ▼                           ▼
+    Result<T>                 Exception
+       │                           │
+       └─────────────┬─────────────┘
+                     ▼
+                 API Boundary
+                     │
+                     ▼
+              HTTP Response
+
+Error Handling Architecture on the API Layer
+
+                    Endpoint
+                       │
+                       ▼
+                Application Handler
+                       │
+                       ▼
+                    Result<T>
+                       │
+              ┌────────┴────────┐
+              │                 │
+           Failure           Success
+              │                 │
+              ▼                 ▼
+       ErrorToHttpMapper    Endpoint decides
+              │             200/201/204/etc.
+              ▼
+          HttpError
+              │
+              ▼
+       ProblemDetails

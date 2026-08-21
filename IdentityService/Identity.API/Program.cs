@@ -1,3 +1,6 @@
+using Identity.API.Common.Errors.ErrorToHttpError;
+using Identity.API.Common.Errors.HttpErrorToResult;
+using Identity.API.Common.Results.SuccessToResult;
 using Identity.API.DependencyInjection;
 using Identity.API.Extensions;
 using Identity.Application.DependencyInjection;
@@ -15,6 +18,10 @@ builder.Services
     .AddApplication()
     .AddInfrastructure(builder.Configuration)
     .AddJwtAuthentication(builder.Configuration);
+
+builder.Services.AddScoped<ISuccessToResultMapper, SuccessToResultMapper>();
+builder.Services.AddScoped<IErrorToHttpMapper, ErrorToHttpMapper>();
+builder.Services.AddScoped<IHttpErrorToResultMapper, HttpErrorToResultMapper>();
 
 builder.Services.AddAuthorization();
 

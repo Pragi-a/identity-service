@@ -1,7 +1,7 @@
 using MediatR;
 using Identity.API.Authorization;
+using Identity.API.Common.Results;
 using Identity.Application.Authorization;
-using Identity.Application.Common.Errors;
 using Identity.Application.Features.Users.DeactivateUser;
 using Microsoft.AspNetCore.Mvc;
 
@@ -19,38 +19,13 @@ public static class DeactivateUserEndpoint
 
                 var result = await sender.Send(command, cancellationToken);
 
-                if (result.IsFailure)
-                {
-                    if (result.Error == UserErrors.UserNotFound)
-                    {
-                        return Results.NotFound(new
-                            {
-                                Error = UserErrors.UserNotFound.Message,
-                            }
-                        );
-                    }
-
-                    if (result.Error == CommonErrors.ConcurrencyConflict)
-                    {
-                        return Results.Conflict(
-                            new
-                            {
-                                error = CommonErrors.ConcurrencyConflict.Message
-                            }
-                        );
-                    }
-
-                    return Results.BadRequest(new { error = result.Error });
-                }
-
-                return Results.NoContent();
+                return ApiResult<DeactivateUserResponse>.Create(result, _ => SuccessResponse.NoContent());
             })
             .WithMetadata(new HasPermissionAttribute(PermissionCodes.Users.Delete.Code))
             .WithName("DeactivateUser")
             .WithTags("users")
             .WithSummary("Deactivate an User")
             .WithDescription("Soft Deletes an Users")
-            .Produces<DeactivateUserResponse>()
             .Produces(StatusCodes.Status204NoContent)
             .Produces(StatusCodes.Status400BadRequest)
             .Produces(StatusCodes.Status404NotFound)
