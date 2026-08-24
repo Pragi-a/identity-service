@@ -1,5 +1,8 @@
 using System.Security.Cryptography;
 using Identity.API.Authorization;
+using Identity.API.Common.Errors.ErrorToHttpError;
+using Identity.API.Common.Errors.HttpErrorToResult;
+using Identity.Application.Common.Errors.Helper;
 using Identity.Infrastructure.Security.Jwt;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Authorization;
@@ -42,6 +45,28 @@ public static class AuthenticationRegistration
                     ValidateLifetime = true,
                     ClockSkew = TimeSpan.Zero,
                     RequireExpirationTime = true,
+                };
+
+                options.Events = new JwtBearerEvents
+                {
+                    OnChallenge = async context =>
+                    {
+                        context.HandleResponse();
+
+                        var error = SecurityErrors.Unauthenticated;
+
+                        var errorToHttpError =
+                            context.HttpContext.RequestServices.GetRequiredService<IErrorToHttpMapper>();
+
+                        var httpError = errorToHttpError.Map(error);
+
+                        var httpErrorToResultMapper = context.HttpContext.RequestServices
+                            .GetRequiredService<IHttpErrorToResultMapper>();
+
+                        var result = httpErrorToResultMapper.Map(httpError);
+
+                        await result.ExecuteAsync(context.HttpContext);
+                    }
                 };
             });
 
