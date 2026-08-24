@@ -1,6 +1,8 @@
 using System.Security.Cryptography;
+using Identity.API.Authorization;
 using Identity.Infrastructure.Security.Jwt;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.IdentityModel.Tokens;
 
 namespace Identity.API.DependencyInjection;
@@ -44,6 +46,7 @@ public static class AuthenticationRegistration
             });
 
         services.AddAuthorization();
+        services.AddSingleton<IAuthorizationMiddlewareResultHandler, AuthorizationMiddlewareResultHandler>();
         return services;
     }
 }

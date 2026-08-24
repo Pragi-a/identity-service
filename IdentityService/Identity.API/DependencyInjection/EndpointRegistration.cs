@@ -21,20 +21,20 @@ public static class EndpointRegistration
 
         api.AddEndpointFilter<ApiResultEndpointFilter>();
 
-        app.MapRegisterEndpoint();
-        app.MapLoginEndpoint();
-        app.MapMeEndpoint();
-        app.MapRefreshEndpoint();
+        api.MapRegisterEndpoint();
+        api.MapLoginEndpoint();
+        api.MapMeEndpoint();
+        api.MapRefreshEndpoint();
 
-        app.MapCreateUserEndpoint();
-        app.MapGetUsersEndpoint();
-        app.MapGetUserByIdEndpoint();
-        app.MapUpdateUserEndpoint();
-        app.MapDeactivateUserEndpoint();
-        app.MapDeleteUserEndpoint();
+        api.MapCreateUserEndpoint();
+        api.MapGetUsersEndpoint();
+        api.MapGetUserByIdEndpoint();
+        api.MapUpdateUserEndpoint();
+        api.MapDeactivateUserEndpoint();
+        api.MapDeleteUserEndpoint();
 
 
-        app.MapUpdateRolePermissions();
-        return app;
+        api.MapUpdateRolePermissions();
+        return api;
     }
 }

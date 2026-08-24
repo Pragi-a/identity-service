@@ -11,7 +11,7 @@ public static class DeleteUserEndpoint
 {
     public static IEndpointRouteBuilder MapDeleteUserEndpoint(this IEndpointRouteBuilder app)
     {
-        app.MapDelete("/api/users/{userId}",
+        app.MapDelete("/users/{userId}",
                 async ([FromRoute] Guid userId, ISender sender, CancellationToken cancellationToken) =>
                 {
                     var command = new DeleteUserCommand(userId);
