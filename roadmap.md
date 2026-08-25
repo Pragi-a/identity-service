@@ -310,3 +310,7 @@ Error Handling Architecture on the API Layer
               │
               ▼
        ProblemDetails
+
+
+
+RabbitMq consumer for updating the redis cache upon the rolePermissionsupdateEventchange

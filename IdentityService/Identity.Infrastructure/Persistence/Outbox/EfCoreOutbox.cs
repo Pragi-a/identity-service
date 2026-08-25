@@ -1,5 +1,4 @@
 using System.Text.Json;
-using Identity.Application.Common.Events;
 using Identity.Application.Common.Events.Base;
 using Identity.Application.Interfaces;
 

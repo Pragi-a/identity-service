@@ -1,4 +1,3 @@
-using Identity.Application.Common.Events;
 using Identity.Application.Common.Events.Base;
 
 namespace Identity.Application.Interfaces;

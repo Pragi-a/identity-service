@@ -1,5 +1,4 @@
 using System.Diagnostics;
-using Identity.Application.Common.Events;
 using Identity.Application.Common.IntegrationEvents;
 using Identity.Application.Interfaces;
 using Identity.Domain.Events;
