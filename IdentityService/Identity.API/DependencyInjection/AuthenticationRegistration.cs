@@ -2,6 +2,7 @@ using System.Security.Cryptography;
 using Identity.API.Authorization;
 using Identity.API.Common.Errors.ErrorToHttpError;
 using Identity.API.Common.Errors.HttpErrorToResult;
+using Identity.API.Common.Exceptions;
 using Identity.Application.Common.Errors.Helper;
 using Identity.Infrastructure.Security.Jwt;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
@@ -72,6 +73,7 @@ public static class AuthenticationRegistration
 
         services.AddAuthorization();
         services.AddSingleton<IAuthorizationMiddlewareResultHandler, AuthorizationMiddlewareResultHandler>();
+        services.AddExceptionHandler<GlobalExceptionHandler>();
         return services;
     }
 }
