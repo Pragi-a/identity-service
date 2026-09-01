@@ -6,10 +6,10 @@ using Identity.Application.Interfaces.Security;
 using Identity.Infrastructure.Authorization;
 using Identity.Infrastructure.Messaging.RabbitMq;
 using Identity.Infrastructure.Messaging.RabbitMq.Connection;
-using Identity.Infrastructure.Messaging.RabbitMq.Contracts;
 using Identity.Infrastructure.Messaging.RabbitMq.Contracts.Connection;
 using Identity.Infrastructure.Messaging.RabbitMq.Contracts.Routing;
 using Identity.Infrastructure.Messaging.RabbitMq.Contracts.Scaffolding;
+using Identity.Infrastructure.Messaging.RabbitMq.Routing;
 using Identity.Infrastructure.Messaging.RabbitMq.Scaffolding;
 using Identity.Infrastructure.Persistence;
 using Identity.Infrastructure.Persistence.Outbox;
@@ -41,9 +41,9 @@ public static class DependencyInjection
         {
             var connectionString = configuration.GetConnectionString("IdentityDb") ??
                                    throw new InvalidOperationException("Connection string 'IdentityDb' was not found.");
-            options.UseNpgsql(connectionString)
-                .EnableSensitiveDataLogging()
-                .LogTo(Console.WriteLine, LogLevel.Information);
+            options.UseNpgsql(connectionString);
+            // .EnableSensitiveDataLogging()
+            // .LogTo(Console.WriteLine, LogLevel.Information);
         });
         services.AddScoped<IUserRepository, UserRepository>();
         services.AddScoped<IRefreshTokenRepository, RefreshTokenRepository>();
@@ -73,7 +73,8 @@ public static class DependencyInjection
         services.Configure<RabbitMqOptions>(configuration.GetSection(RabbitMqOptions.SectionName));
         services.AddSingleton<IRabbitMqConnection, RabbitMqConnection>();
         services.AddSingleton<IRabbitMqTopologyInitializer, RabbitMqTopologyInitializerInitializer>();
-        services.AddSingleton<IIntegrationEventRoutingStrategy, IIntegrationEventRoutingStrategy>();
+        services.AddSingleton<IIntegrationEventRoutingStrategy, IntegrationEventRoutingStrategy>();
+        services.AddScoped<IIntegrationEventPublisher, RabbitMqIntegrationEventPublisher>();
 
         return services;
     }

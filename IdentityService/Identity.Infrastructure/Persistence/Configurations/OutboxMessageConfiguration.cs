@@ -47,9 +47,12 @@ public sealed class OutboxMessageConfiguration : IEntityTypeConfiguration<Outbox
 
         builder.Property(x => x.FailedAt)
             .HasColumnName("failed_at");
+        
+        builder.Property(x => x.OccurredAt)
+            .HasColumnName("occurred_at");
 
 
         builder.HasIndex(x => x.PublishedAt)
-            .HasDatabaseName("ix_outbox_messages_published_at");
+            .HasDatabaseName("ix_out`box_messages_published_at");
     }
 }

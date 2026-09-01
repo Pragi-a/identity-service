@@ -72,7 +72,7 @@ public static class AuthenticationRegistration
             });
 
         services.AddAuthorization();
-        services.AddSingleton<IAuthorizationMiddlewareResultHandler, AuthorizationMiddlewareResultHandler>();
+        services.AddScoped<IAuthorizationMiddlewareResultHandler, AuthorizationMiddlewareResultHandler>();
         services.AddExceptionHandler<GlobalExceptionHandler>();
         return services;
     }

@@ -25,7 +25,7 @@ public sealed class EfCoreOutboxRepository(IdentityDbContext identityDbContext) 
                  next_attempt_at IS NULL
                  OR next_attempt_at < {now}
              )
-             ORDER BY occured_at
+             ORDER BY occurred_at
              LIMIT {batchSize}
              FOR UPDATE SKIP LOCKED
              """).ToListAsync(cancellationToken);

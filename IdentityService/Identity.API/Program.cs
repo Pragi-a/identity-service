@@ -25,6 +25,8 @@ builder.Services.AddScoped<IHttpErrorToResultMapper, HttpErrorToResultMapper>();
 
 builder.Services.AddAuthorization();
 
+builder.Logging.AddJsonConsole(options => { options.IncludeScopes = true; });
+
 var app = builder.Build();
 await app.InitializeDatabaseAsync();
 
