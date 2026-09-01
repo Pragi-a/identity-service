@@ -1,5 +1,6 @@
 using Identity.API.Common.Errors.ErrorToHttpError;
 using Identity.API.Common.Errors.HttpErrorToResult;
+using Identity.API.Common.MiddleWare;
 using Identity.API.Common.Results.SuccessToResult;
 using Identity.API.DependencyInjection;
 using Identity.API.Extensions;
@@ -30,6 +31,7 @@ builder.Logging.AddJsonConsole(options => { options.IncludeScopes = true; });
 var app = builder.Build();
 await app.InitializeDatabaseAsync();
 
+app.UseMiddleware<CorrelationMiddleware>();
 // Configure the HTTP request pipeline.
 if (app.Environment.IsDevelopment())
 {
