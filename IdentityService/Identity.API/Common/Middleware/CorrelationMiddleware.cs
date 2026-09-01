@@ -1,14 +1,20 @@
+using Identity.API.Common.Correlation;
+
 namespace Identity.API.Common.MiddleWare;
 
-public sealed class CorrelationMiddleware(RequestDelegate next, ILogger<CorrelationMiddleware> logger)
+public sealed class CorrelationMiddleware(
+    RequestDelegate next,
+    ILogger<CorrelationMiddleware> logger
+)
 {
     private const string CorrelationIdHeaderName = "X-Correlation-ID";
 
-    public async Task InvokeAsync(HttpContext httpContext)
+    public async Task InvokeAsync(HttpContext httpContext, ICorrelationContextInitializer correlationContextInitializer)
     {
-        var correlationId = Guid.NewGuid().ToString();
+        var correlationId = Guid.NewGuid();
 
-        httpContext.Response.Headers.Append(CorrelationIdHeaderName, correlationId);
+        correlationContextInitializer.SetCorrelationId(correlationId);
+        httpContext.Response.Headers.Append(CorrelationIdHeaderName, correlationId.ToString());
 
         using (logger.BeginScope(new[]
                {
