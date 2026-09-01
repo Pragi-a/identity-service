@@ -55,3 +55,10 @@ CodeCoverage/
 *.VisualState.xml
 TestResult.xml
 nunit-*.xml
+
+
+IdentityService/Identity.API/Keys/
+
+.idea/
+*.user
+*.suo
